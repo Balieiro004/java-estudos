@@ -1,0 +1,14 @@
+# IntelliJ
+.idea/
+*.iml
+
+# Arquivos compilados
+out/
+target/
+build/
+
+# Logs
+*.log
+
+# Arquivos temporários
+*.tmp
