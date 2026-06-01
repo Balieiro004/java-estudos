@@ -2,8 +2,6 @@ import entities.Pessoa;
 
 import java.util.Scanner;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
 
@@ -21,7 +19,7 @@ public class Main {
                 System.out.println("Login realizado com sucesso!");
                 break;
             }else{
-                System.out.println("Credenciais invalidas!. Restam " +(2 - tentativas));
+                System.out.println("Credenciais invalidas!. Restam " +(2 - tentativas) + " tentativas.");
                 if(tentativas == 2){
                     System.out.println("Usuario bloqueado!");
                 }
