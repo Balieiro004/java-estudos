@@ -10,41 +10,35 @@ public class Main {
 
         int notas100 = saque / 100;
         int resto = saque % 100;
-        if(notas100 > 0)
-            System.out.println(notas100 + " notas de 100");
+        imprimirNotas(notas100, 100);
 
         int notas50 = resto / 50;
         resto = resto % 50;
-        if(notas50 == 1)
-            System.out.println(notas50 + " nota de 50");
-        else
-            System.out.println(notas50 + " notas de 50");
+        imprimirNotas(notas50, 50);
 
         int notas20 = resto / 20;
         resto = resto % 20;
-        if(notas20 == 1)
-            System.out.println(notas20  + " nota de 20");
-        else
-            System.out.println(notas20  + " notas de 20");
+        imprimirNotas(notas20, 20);
 
         int notas10 = resto / 10;
         resto = resto % 10;
-        if(notas10 == 1)
-            System.out.println(notas10  + " nota de 10");
-        else
-            System.out.println(notas10  + " notas de 10");
+        imprimirNotas(notas10, 10);
 
         int notas5 = resto / 5;
         resto = resto % 5;
-        if(notas5 == 1)
-            System.out.println(notas5  + " nota de 5");
-        else
-            System.out.println(notas5  + " notas de 5");
+        imprimirNotas(notas5, 5);
 
         int notas1 = resto;
-        if(notas1 == 1)
-            System.out.println(notas1  + " nota de 1");
+        imprimirNotas(notas1, 1);
+    }
+
+    public static void imprimirNotas(int quantidade, int valorNota){
+        if(quantidade <= 0){
+            return;
+        }
+        if(quantidade == 1)
+            System.out.println("1 nota de " +valorNota);
         else
-            System.out.println(notas1  + " notas de 1");
+            System.out.println(quantidade + " notas de " + valorNota);
     }
 }
