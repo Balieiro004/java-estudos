@@ -2,6 +2,7 @@ import entities.Biblioteca;
 import entities.Livro;
 import entities.Usuario;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -23,15 +24,15 @@ public class Main {
         boolean executando = true;
         while(executando){
             int opcao;
-            int idUsuario;
-            int idLivro;
+
             System.out.println("1 Cadastrar Livro");
             System.out.println("2 Cadastrar usuário");
             System.out.println("3 Listar livros");
             System.out.println("4 Listar usuarios");
             System.out.println("5 Emprestar livro");
             System.out.println("6 Devolver livro");
-            System.out.println("7 Sair");
+            System.out.println("7 Listar livros Emprestados");
+            System.out.println("8 Sair");
             System.out.print("Opcao: ");
             opcao = sc.nextInt();
             sc.nextLine();
@@ -87,6 +88,17 @@ public class Main {
                     System.out.println(biblioteca.devolverLivro(dadosDevolucao[0], dadosDevolucao[1]));
                     break;
                 case 7:
+                    List<Livro> livrosEmprestados = biblioteca.listarLivrosEmprestados();
+
+                    if(livrosEmprestados.isEmpty()){
+                        System.out.println("Nenhum livro emprestado");
+                    }else{
+                        for(Livro livro : livrosEmprestados){
+                            System.out.println(livro);
+                        }
+                    }
+                    break;
+                case 8:
                     executando = false;
                     System.out.println("Saindo...");
                     break;
@@ -94,6 +106,7 @@ public class Main {
                     System.out.println("Opção invalida");
             }
         }
+        sc.close();
     }
     private static int[] lerDadosEmprestimo(Scanner sc){
         System.out.print("Id usuário: ");

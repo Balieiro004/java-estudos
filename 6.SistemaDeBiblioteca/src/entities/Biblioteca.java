@@ -1,15 +1,16 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Biblioteca {
 
-    private ArrayList<Livro> livros = new ArrayList<>();
-    private ArrayList<Usuario> usuarios = new ArrayList<>();
+    private List<Livro> livros = new ArrayList<>();
+    private List<Usuario> usuarios = new ArrayList<>();
 
     public String cadastrarLivro(String titulo, String autor) {
         if(titulo == null || autor == null
-        || titulo.isEmpty() || autor.isEmpty()){
+        || titulo.trim().isEmpty() || autor.trim().isEmpty()){
             return "O titulo e o autor precisam ser preenchido.";
         }
         livros.add(new Livro(titulo, autor));
@@ -18,18 +19,22 @@ public class Biblioteca {
 
     public String cadastrarUsuario(String nome) {
 
-        if(nome == null || nome.isEmpty()){
-            return "O nome e autor precisam ser preenchido.";
+        if(nome == null ||  nome.trim().isEmpty()){
+            return "O nome precisa ser preenchido.";
+        }
+
+        if(buscarUsuarioPorNome(nome) != null){
+            return "Usuário já cadastrado.";
         }
         usuarios.add(new Usuario(nome));
         return "Usuario cadastrado com sucesso!";
     }
 
-    public ArrayList<Livro> listarLivros() {
+    public List<Livro> listarLivros() {
         return livros;
     }
 
-    public ArrayList<Usuario> listarUsuarios() {return usuarios;}
+    public List<Usuario> listarUsuarios() {return usuarios;}
 
     public String emprestarLivro(int idUsuario, int idLivro) {
 
@@ -76,6 +81,19 @@ public class Biblioteca {
         return "Livro devolvido com sucesso, obrigado " + usuarioEncontrado.getNome();
     }
 
+    public List<Livro> listarLivrosEmprestados(){
+
+        List<Livro> livrosEmprestados = new ArrayList<>();
+
+        for(Livro livro : livros){
+
+            if(livro.isEmprestado()){
+                livrosEmprestados.add(livro);
+            }
+        }
+        return livrosEmprestados;
+    }
+
     private Usuario buscarUsuarioPorId(int idUsuario) {
         for(Usuario usuario : usuarios){
             if(usuario.getId() == idUsuario){
@@ -89,6 +107,15 @@ public class Biblioteca {
         for(Livro livro : livros){
             if(livro.getId() == idLivro){
                 return livro;
+            }
+        }
+        return null;
+    }
+
+    private Usuario buscarUsuarioPorNome(String nome) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getNome().equalsIgnoreCase(nome)) {
+                return usuario;
             }
         }
         return null;
