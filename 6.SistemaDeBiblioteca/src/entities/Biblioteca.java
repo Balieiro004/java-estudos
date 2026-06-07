@@ -25,13 +25,13 @@ public class Biblioteca {
         return "Usuario cadastrado com sucesso!";
     }
 
-    public ArrayList<Livro> ListarLivros() {
+    public ArrayList<Livro> listarLivros() {
         return livros;
     }
 
-    public ArrayList<Usuario> ListarUsuarios() {return usuarios;}
+    public ArrayList<Usuario> listarUsuarios() {return usuarios;}
 
-    public String EmprestarLivro(int idUsuario, int idLivro) {
+    public String emprestarLivro(int idUsuario, int idLivro) {
 
         Usuario usuarioEncontrado = buscarUsuarioPorId(idUsuario);
 
@@ -48,7 +48,7 @@ public class Biblioteca {
         if(livroEncontrado.isEmprestado()){
             return "Livro já está emprestado.";
         }
-        livroEncontrado.emprestar();
+        livroEncontrado.emprestar(usuarioEncontrado);
         return "Livro emprestado com sucesso para " + usuarioEncontrado.getNome();
     }
 
@@ -69,6 +69,9 @@ public class Biblioteca {
         if(!livroEncontrado.isEmprestado()){
             return "Livro não está emprestado.";
         }
+
+        if(livroEncontrado.getUsuarioComLivro().getId() != idUsuario){return "Esse usuário não está com o livro.";}
+
         livroEncontrado.devolver();
         return "Livro devolvido com sucesso, obrigado " + usuarioEncontrado.getNome();
     }

@@ -52,7 +52,7 @@ public class Main {
                     System.out.println(biblioteca.cadastrarUsuario(nome));
                     break;
                 case 3:
-                    var livros = biblioteca.ListarLivros();
+                    var livros = biblioteca.listarLivros();
 
                     if(livros.isEmpty()){
                         System.out.println("Nenhum livro encontrado");
@@ -63,7 +63,7 @@ public class Main {
                     }
                     break;
                 case 4:
-                    var usuarios = biblioteca.ListarUsuarios();
+                    var usuarios = biblioteca.listarUsuarios();
                     if(usuarios.isEmpty()){
                         System.out.println("Nenhum usuario encontrado");
                     }else{
@@ -77,7 +77,7 @@ public class Main {
 
                     int[] dadosEmprestimo = lerDadosEmprestimo(sc);
 
-                    System.out.println(biblioteca.EmprestarLivro(dadosEmprestimo[0], dadosEmprestimo[1]));
+                    System.out.println(biblioteca.emprestarLivro(dadosEmprestimo[0], dadosEmprestimo[1]));
                     break;
                 case 6:
                     System.out.println("Devolver livro");

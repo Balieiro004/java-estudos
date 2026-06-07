@@ -6,15 +6,16 @@ public class Livro {
     private String titulo;
     private String autor;
     private boolean emprestado;
+    private Usuario usuarioComLivro;
 
-    private static int contator = 0;
+    private static int contador = 0;
 
     public Livro() {
     }
 
     public Livro(String titulo, String autor) {
-        contator++;
-        this.id = contator;
+        contador++;
+        this.id = contador;
         this.titulo = titulo;
         this.autor = autor;
         this.emprestado = false;
@@ -48,21 +49,38 @@ public class Livro {
         this.emprestado = emprestado;
     }
 
-    public void emprestar(){
+    public void emprestar(Usuario usuario) {
         this.emprestado = true;
+        this.usuarioComLivro = usuario;
     }
 
     public void devolver(){
         this.emprestado = false;
+        this.usuarioComLivro = null;
+    }
+
+    public Usuario getUsuarioComLivro() {
+        return usuarioComLivro;
+    }
+
+    public void setUsuarioComLivro(Usuario usuarioComLivro) {
+        this.usuarioComLivro = usuarioComLivro;
     }
 
     @Override
     public String toString() {
+
+        String usuario = "Nenhum";
+
+        if(usuarioComLivro != null){
+            usuario = usuarioComLivro.getNome();
+        }
         return "\nLivro " +
                 "\nid: " + id +
                 "\ntitulo: " + titulo +
                 "\nautor: " + autor +
                 "\nemprestado: " + emprestado +
+                "\ncom usuario: " + usuario +
                 "\n======================";
     }
 }
