@@ -8,8 +8,9 @@ public class Colaborador {
     private String email;
 
 
-    public Colaborador(int id, String nome, String email) {
-        this.id = id;
+    public Colaborador(String nome, String email) {
+        contador++;
+        this.id = contador;
         this.nome = nome;
         this.email = email;
     }
