@@ -8,6 +8,7 @@ public class Equipamento {
     private String patrimonio;
     private String serviceTag;
     private boolean status;
+    private Colaborador colaboradorComEquipamento;
 
     public Equipamento() {
     }
@@ -61,13 +62,38 @@ public class Equipamento {
         this.status = status;
     }
 
+    public void emprestarEquipamento(Colaborador colaborador) {
+        this.status = true;
+        this.colaboradorComEquipamento = colaborador;
+    }
+
+    public void devolverEquipamento() {
+        this.status = false;
+        this.colaboradorComEquipamento = null;
+    }
+
+    public Colaborador getColaboradorComEquipamento() {
+        return colaboradorComEquipamento;
+    }
+
+    public void setColaboradorComEquipamento(Colaborador colaboradorComEquipamento) {
+        this.colaboradorComEquipamento = colaboradorComEquipamento;
+    }
+
     @Override
     public String toString() {
+
+        String colaborador = "Nenhum";
+
+        if(colaboradorComEquipamento != null){
+            colaborador = colaboradorComEquipamento.getNome();
+        }
         return "Equipamento" +
                 "\nid: " + id +
                 "\nnome: " + nome +
                 "\npatrimonio: " + patrimonio +
                 "\nserviceTag: " + serviceTag +
-                "\nstatus: " + status;
+                "\nstatus: " + status +
+                "\ncolaborador: " + colaborador;
     }
 }

@@ -44,4 +44,61 @@ public class Estoque {
         colaboradores.add(colaborador);
         return "Colaborador cadastrado com sucesso!";
     }
+
+    public String emprestarEquipamento(int idEquipamento, int idColaborador) {
+
+        Colaborador colaboradorEncontrado = buscarColaboradorPorId(idColaborador);
+
+        if(colaboradorEncontrado == null) return "Colaborador inexistente";
+
+        Equipamento equipamentoEncontrada = buscarEquipamentoPorId(idEquipamento);
+
+        if(equipamentoEncontrada == null) return "Equipamento não encontrado";
+
+        if (equipamentoEncontrada.isStatus())return "Livro ja emprestado";
+
+        equipamentoEncontrada.emprestarEquipamento(colaboradorEncontrado);
+        return "Equipamento emprestado com sucesso!" + colaboradorEncontrado.getNome();
+
+    }
+
+    public String devolverEquipamento(int idEquipamento, int idColaborador) {
+        Colaborador colaboradorEncontrado = buscarColaboradorPorId(idColaborador);
+
+        if(colaboradorEncontrado == null) return "Colaborador inexistente";
+
+        Equipamento equipamentoEncontrada = buscarEquipamentoPorId(idEquipamento);
+
+        if(equipamentoEncontrada == null) return "Equipamento não encontrado";
+
+        if(!equipamentoEncontrada.isStatus())return "Equipamento não está emprestado";
+
+        if(equipamentoEncontrada.getColaboradorComEquipamento().getId() != idColaborador)return "Esse colaborador não está com o equipamento";
+
+        equipamentoEncontrada.devolverEquipamento();
+        return "Equipamento devolvido com sucesso!" + colaboradorEncontrado.getNome();
+    }
+
+    public List<Equipamento> listarEquipamentosEmprestados(){
+
+        List<Equipamento> equipamentosEmprestados = new ArrayList<>();
+
+        for(Equipamento equipamento : equipamentos){
+            if(equipamento.isStatus()) equipamentosEmprestados.add(equipamento);
+        }
+        return equipamentosEmprestados;
+    }
+    private Colaborador buscarColaboradorPorId(int idColaborador) {
+        for (Colaborador colaborador : colaboradores) {
+            if (colaborador.getId() == idColaborador) return colaborador;
+        }
+        return null;
+    }
+
+    private Equipamento buscarEquipamentoPorId(int idEquipamento) {
+        for (Equipamento equipamento : equipamentos) {
+            if (equipamento.getId() == idEquipamento) return equipamento;
+        }
+        return null;
+    }
 }

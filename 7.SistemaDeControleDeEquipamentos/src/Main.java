@@ -10,8 +10,10 @@ public class Main {
 
         Estoque estoque = new Estoque();
         Colaborador colaborador = new Colaborador("Anderson", "anderson@email.com");
+        Colaborador colaborador2 = new Colaborador("Anderson", "anderson@email.com");
 
         estoque.cadastrarColaborador(colaborador);
+        estoque.cadastrarColaborador(colaborador2);
         System.out.println("-------");
         List<Colaborador> listaColaborador = estoque.getColaboradores();
         if(listaColaborador.isEmpty()){
@@ -42,6 +44,17 @@ public class Main {
 
         System.out.println("======================");
 
+        System.out.println(estoque.emprestarEquipamento(1,1));
+        System.out.println("======================");
+        System.out.println("======================");
+
+        System.out.println(estoque.devolverEquipamento(2,2));
+
+        List<Equipamento> equipamentosEmprestados = estoque.listarEquipamentosEmprestados();
+        if(equipamentosEmprestados.isEmpty()) System.out.println("Nenhum Equipamento Emprestado Encontrado.");
+        else for(Equipamento equipamento1 : equipamentosEmprestados){
+            System.out.println(equipamento1);
+        }
 
     }
 }
