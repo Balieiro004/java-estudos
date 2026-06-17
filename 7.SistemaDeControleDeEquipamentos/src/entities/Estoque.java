@@ -1,5 +1,7 @@
 package entities;
 
+import entities.enums.StatusEquipamento;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,25 +23,38 @@ public class Estoque {
 
     public String cadastrarEquipamento(String nome, String patrimonio, String serviceTag) {
 
-        if(nome == null || nome.isBlank()){
-            return "Nome de equipamento invalido";
+        if (nome == null || nome.isBlank()) {
+            return "Nome de equipamento invalido.";
         }
-        if (patrimonio == null || patrimonio.isBlank()){
-            return "Patrimonio invalido";
+        if (patrimonio == null || patrimonio.isBlank()) {
+            return "Patrimonio invalido.";
         }
-        if (serviceTag == null || serviceTag.isBlank()){
-            return "Service Tag invalida";
+        if (serviceTag == null || serviceTag.isBlank()) {
+            return "Service Tag invalida.";
         }
+
+        if (buscarEquipamentoPorPatrimonio(patrimonio) != null) {
+            return "Patrimonio existente.";
+        }
+
+        if(buscaEquipamentoPorServiceTag(serviceTag) != null) {
+            return "Já existe um equipamento com essa service tag.";
+        }
+
         equipamentos.add(new Equipamento(nome, patrimonio, serviceTag));
         return "Equipamento cadastrado com sucesso!";
     }
 
     public String cadastrarColaborador(String nome, String email) {
-        if(nome == null || nome.isBlank()){
+        if (nome == null || nome.isBlank()) {
             return "Nome de colaborador invalido";
         }
-        if (email == null || email.isBlank()){
+        if (email == null || email.isBlank()) {
             return "Email do colaborador invalido";
+        }
+
+        if (buscarColaboradorPorEmail(email) != null) {
+            return "Já existe um colaborador com essa email.";
         }
         colaboradores.add(new Colaborador(nome, email));
         return "Colaborador cadastrado com sucesso!";
@@ -49,13 +64,13 @@ public class Estoque {
 
         Colaborador colaboradorEncontrado = buscarColaboradorPorId(idColaborador);
 
-        if(colaboradorEncontrado == null) return "Colaborador inexistente";
+        if (colaboradorEncontrado == null) return "Colaborador inexistente";
 
         Equipamento equipamentoEncontrada = buscarEquipamentoPorId(idEquipamento);
 
-        if(equipamentoEncontrada == null) return "Equipamento não encontrado";
+        if (equipamentoEncontrada == null) return "Equipamento não encontrado";
 
-        if (equipamentoEncontrada.isStatus())return "Equipamento ja emprestado";
+        if (equipamentoEncontrada.getStatus() == StatusEquipamento.EMPRESTADO) return "Equipamento ja emprestado";
 
         equipamentoEncontrada.emprestarEquipamento(colaboradorEncontrado);
         return "Equipamento emprestado com sucesso!" + colaboradorEncontrado.getNome();
@@ -65,26 +80,27 @@ public class Estoque {
     public String devolverEquipamento(int idColaborador, int idEquipamento) {
         Colaborador colaboradorEncontrado = buscarColaboradorPorId(idColaborador);
 
-        if(colaboradorEncontrado == null) return "Colaborador inexistente";
+        if (colaboradorEncontrado == null) return "Colaborador inexistente";
 
         Equipamento equipamentoEncontrada = buscarEquipamentoPorId(idEquipamento);
 
-        if(equipamentoEncontrada == null) return "Equipamento não encontrado";
+        if (equipamentoEncontrada == null) return "Equipamento não encontrado";
 
-        if(!equipamentoEncontrada.isStatus())return "Equipamento não está emprestado";
+        if (equipamentoEncontrada.getStatus() != StatusEquipamento.EMPRESTADO) return "Equipamento não está emprestado";
 
-        if(equipamentoEncontrada.getColaboradorComEquipamento().getId() != idColaborador)return "Esse colaborador não está com o equipamento";
+        if (equipamentoEncontrada.getColaboradorComEquipamento().getId() != idColaborador)
+            return "Esse colaborador não está com o equipamento";
 
         equipamentoEncontrada.devolverEquipamento();
         return "Equipamento devolvido com sucesso!" + colaboradorEncontrado.getNome();
     }
 
-    public List<Equipamento> listarEquipamentosEmprestados(){
+    public List<Equipamento> listarEquipamentosEmprestados() {
 
         List<Equipamento> equipamentosEmprestados = new ArrayList<>();
 
-        for(Equipamento equipamento : equipamentos){
-            if(equipamento.isStatus()) equipamentosEmprestados.add(equipamento);
+        for (Equipamento equipamento : equipamentos) {
+            if (equipamento.getStatus() == StatusEquipamento.EMPRESTADO) equipamentosEmprestados.add(equipamento);
         }
         return equipamentosEmprestados;
     }
@@ -102,4 +118,27 @@ public class Estoque {
         }
         return null;
     }
+
+
+    private Equipamento buscarEquipamentoPorPatrimonio(String patrimonio) {
+        for (Equipamento equipamento : equipamentos) {
+            if (equipamento.getPatrimonio().equals(patrimonio)) return equipamento;
+        }
+        return null;
+    }
+
+    private Equipamento buscaEquipamentoPorServiceTag(String serviceTag) {
+        for (Equipamento equipamento : equipamentos) {
+            if (equipamento.getServiceTag().equals(serviceTag)) return equipamento;
+        }
+        return null;
+    }
+
+    private Colaborador buscarColaboradorPorEmail(String email) {
+        for (Colaborador colaborador : colaboradores) {
+            if (colaborador.getEmail().equals(email)) return colaborador;
+        }
+        return null;
+    }
+
 }

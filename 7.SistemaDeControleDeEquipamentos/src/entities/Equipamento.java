@@ -1,5 +1,7 @@
 package entities;
 
+import entities.enums.StatusEquipamento;
+
 public class Equipamento {
 
     private static int contador;
@@ -7,7 +9,7 @@ public class Equipamento {
     private String nome;
     private String patrimonio;
     private String serviceTag;
-    private boolean status;
+    private StatusEquipamento status;
     private Colaborador colaboradorComEquipamento;
 
     public Equipamento() {
@@ -19,15 +21,11 @@ public class Equipamento {
         this.nome = nome;
         this.patrimonio = patrimonio;
         this.serviceTag = serviceTag;
-        this.status = false;
+        this.status = StatusEquipamento.DISPONIVEL;
     }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -54,21 +52,21 @@ public class Equipamento {
         this.serviceTag = serviceTag;
     }
 
-    public boolean isStatus() {
+    public StatusEquipamento getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(StatusEquipamento  status) {
         this.status = status;
     }
 
     public void emprestarEquipamento(Colaborador colaborador) {
-        this.status = true;
+        this.status = StatusEquipamento.EMPRESTADO;
         this.colaboradorComEquipamento = colaborador;
     }
 
     public void devolverEquipamento() {
-        this.status = false;
+        this.status = StatusEquipamento.DISPONIVEL;
         this.colaboradorComEquipamento = null;
     }
 

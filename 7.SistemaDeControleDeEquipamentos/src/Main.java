@@ -17,7 +17,7 @@ public class Main {
 
         for (int i = 0; i < 5; i++) {
 
-            System.out.println(estoque.cadastrarEquipamento("serviceTag", "001" + i, "4SRTRB"));
+            System.out.println(estoque.cadastrarEquipamento("serviceTag", "001" + i, "4SRTRB" + i));
         }
 
         boolean executando = true;
