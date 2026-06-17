@@ -4,57 +4,128 @@ import entities.Estoque;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
+        Scanner sc = new Scanner(System.in);
         Estoque estoque = new Estoque();
-        Colaborador colaborador = new Colaborador("Anderson", "anderson@email.com");
-        Colaborador colaborador2 = new Colaborador("Anderson", "anderson@email.com");
 
-        estoque.cadastrarColaborador(colaborador);
-        estoque.cadastrarColaborador(colaborador2);
-        System.out.println("-------");
-        List<Colaborador> listaColaborador = estoque.getColaboradores();
-        if(listaColaborador.isEmpty()){
-            System.out.println("Lista vazia.");
-        }
-        for(Colaborador c : listaColaborador){
-            System.out.println(c);
-        }
-        System.out.println("-------");
-
-        Equipamento equipamento = new Equipamento();
+        estoque.cadastrarColaborador("Anderson","anderson@email.com");
+        estoque.cadastrarColaborador("Balieiro", "balieiro@email.com");
 
         for (int i = 0; i < 5; i++) {
-            equipamento = new Equipamento("Notebook", "001", "4SRTRB");
-            System.out.println(estoque.cadastrarEquipamento(equipamento));
-        }
-        equipamento = new Equipamento();
-        System.out.println(estoque.cadastrarEquipamento(equipamento));
 
-        List <Equipamento> listaEquipamento = estoque.getEquipamentos();
-        if(listaEquipamento.isEmpty()){
-            System.out.println("Lista vazia.");
-        }
-        for(Equipamento e : listaEquipamento){
-            System.out.println("----------------");
-            System.out.println(e);
+            System.out.println(estoque.cadastrarEquipamento("serviceTag", "001" + i, "4SRTRB"));
         }
 
-        System.out.println("======================");
+        boolean executando = true;
+        while(executando){
+            int opcao;
 
-        System.out.println(estoque.emprestarEquipamento(1,1));
-        System.out.println("======================");
-        System.out.println("======================");
+            System.out.println("1-Cadastrar Colaborador");
+            System.out.println("2-Cadastrar Equipamento");
+            System.out.println("3-Listar Colaboradores");
+            System.out.println("4-Listar Equipamentos");
+            System.out.println("5-Emprestar Equipamento");
+            System.out.println("6-Devolver Equipamento");
+            System.out.println("7-Listar equipamentos Emprestados");
+            System.out.println("8-Sair");
+            System.out.print("Opcao: ");
+            opcao = sc.nextInt();
+            sc.nextLine();
 
-        System.out.println(estoque.devolverEquipamento(2,2));
+            switch(opcao){
+                case 1:
+                    System.out.println("Cadastrar Colaborador");
+                    System.out.print("Nome: ");
+                    String nome = sc.nextLine();
+                    System.out.print("E-mail: ");
+                    String email = sc.nextLine();
+                    System.out.println(estoque.cadastrarColaborador(nome,email));
+                    break;
+                case 2:
+                    System.out.println("Cadastrar Equipamento");
+                    System.out.print("Nome: ");
+                    nome = sc.nextLine();
+                    System.out.print("Patrimonio: ");
+                    String patrimonio = sc.nextLine();
+                    System.out.print("Service tag: ");
+                    String serviceTag = sc.nextLine();
+                    System.out.println(estoque.cadastrarEquipamento(nome, patrimonio, serviceTag));
+                    break;
+                case 3:
+                    var listaColaboradores = estoque.getColaboradores();
 
-        List<Equipamento> equipamentosEmprestados = estoque.listarEquipamentosEmprestados();
-        if(equipamentosEmprestados.isEmpty()) System.out.println("Nenhum Equipamento Emprestado Encontrado.");
-        else for(Equipamento equipamento1 : equipamentosEmprestados){
-            System.out.println(equipamento1);
+                    if(listaColaboradores.isEmpty()){
+                        System.out.println("Nenhuma colaborador encontrado!");
+                    }else {
+                        for(Colaborador colaborador : listaColaboradores){
+                            System.out.println(colaborador);
+                            System.out.println("*****************************");
+                        }
+                    }
+                    break;
+                case 4:
+                    var listaEquipamentos = estoque.getEquipamentos();
+
+                    if(listaEquipamentos.isEmpty()){
+                        System.out.println("Nenhuma equipamento encontrado!");
+                    }else {
+                        for(Equipamento equipamento1 : listaEquipamentos){
+                            System.out.println(equipamento1);
+                            System.out.println("*****************************");
+                        }
+                    }
+                    break;
+                case 5:
+                    System.out.println("Emprestar Equipamento");
+                    int[] dadosEmprestimo = lerDadosEmprestimo(sc);
+
+                    System.out.println(estoque.emprestarEquipamento(dadosEmprestimo[0], dadosEmprestimo[1]));
+                    break;
+                case 6:
+                    System.out.println("Devolver Equipamento");
+
+                    int[] dadosDevoluvao = lerDadosEmprestimo(sc);
+
+                    System.out.println(estoque.devolverEquipamento(dadosDevoluvao[0], dadosDevoluvao[1]));
+                    break;
+                case 7:
+                    System.out.println("Listar Equipamentos Emprestados");
+
+                    List<Equipamento> listaEquipamentosEmprestados = estoque.listarEquipamentosEmprestados();
+
+                    if(listaEquipamentosEmprestados.isEmpty()){
+                        System.out.println("Nenhuma equipamento emprestado!");
+                    }else {
+                        for(Equipamento equipamento1 : listaEquipamentosEmprestados){
+                            System.out.println(equipamento1);
+                            System.out.println("*****************************");
+                        }
+                    }
+                    break;
+                case 8:
+                    System.out.println("Saindo....");
+                    executando = false;
+                    break;
+                default:
+                    System.out.println("Opcao invalida!");
+            }
         }
+        sc.close();
+    }
 
+    private static int[] lerDadosEmprestimo(Scanner sc){
+        System.out.print("Id Colaborador: ");
+        int idColaborador = sc.nextInt();
+
+        System.out.print("Id Equipamento: ");
+        int idEquipamento = sc.nextInt();
+
+        sc.nextLine();
+
+        return new int[]{idColaborador, idEquipamento};
     }
 }

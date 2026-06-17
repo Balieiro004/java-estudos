@@ -19,33 +19,33 @@ public class Estoque {
         return equipamentos;
     }
 
-    public String cadastrarEquipamento(Equipamento equipamento) {
+    public String cadastrarEquipamento(String nome, String patrimonio, String serviceTag) {
 
-        if(equipamento.getNome() == null || equipamento.getNome().isBlank()){
+        if(nome == null || nome.isBlank()){
             return "Nome de equipamento invalido";
         }
-        if (equipamento.getPatrimonio() == null || equipamento.getPatrimonio().isBlank()){
+        if (patrimonio == null || patrimonio.isBlank()){
             return "Patrimonio invalido";
         }
-        if (equipamento.getServiceTag() == null || equipamento.getServiceTag().isBlank()){
+        if (serviceTag == null || serviceTag.isBlank()){
             return "Service Tag invalida";
         }
-        equipamentos.add(equipamento);
+        equipamentos.add(new Equipamento(nome, patrimonio, serviceTag));
         return "Equipamento cadastrado com sucesso!";
     }
 
-    public String cadastrarColaborador(Colaborador colaborador) {
-        if(colaborador.getNome() == null || colaborador.getNome().isBlank()){
+    public String cadastrarColaborador(String nome, String email) {
+        if(nome == null || nome.isBlank()){
             return "Nome de colaborador invalido";
         }
-        if (colaborador.getEmail() == null || colaborador.getEmail().isBlank()){
+        if (email == null || email.isBlank()){
             return "Email do colaborador invalido";
         }
-        colaboradores.add(colaborador);
+        colaboradores.add(new Colaborador(nome, email));
         return "Colaborador cadastrado com sucesso!";
     }
 
-    public String emprestarEquipamento(int idEquipamento, int idColaborador) {
+    public String emprestarEquipamento(int idColaborador, int idEquipamento) {
 
         Colaborador colaboradorEncontrado = buscarColaboradorPorId(idColaborador);
 
@@ -55,14 +55,14 @@ public class Estoque {
 
         if(equipamentoEncontrada == null) return "Equipamento não encontrado";
 
-        if (equipamentoEncontrada.isStatus())return "Livro ja emprestado";
+        if (equipamentoEncontrada.isStatus())return "Equipamento ja emprestado";
 
         equipamentoEncontrada.emprestarEquipamento(colaboradorEncontrado);
         return "Equipamento emprestado com sucesso!" + colaboradorEncontrado.getNome();
 
     }
 
-    public String devolverEquipamento(int idEquipamento, int idColaborador) {
+    public String devolverEquipamento(int idColaborador, int idEquipamento) {
         Colaborador colaboradorEncontrado = buscarColaboradorPorId(idColaborador);
 
         if(colaboradorEncontrado == null) return "Colaborador inexistente";
@@ -88,6 +88,7 @@ public class Estoque {
         }
         return equipamentosEmprestados;
     }
+
     private Colaborador buscarColaboradorPorId(int idColaborador) {
         for (Colaborador colaborador : colaboradores) {
             if (colaborador.getId() == idColaborador) return colaborador;
