@@ -1,4 +1,4 @@
 package entities.enuns;
 
-public class StatusChamado {
+public enum StatusChamado {
 }
