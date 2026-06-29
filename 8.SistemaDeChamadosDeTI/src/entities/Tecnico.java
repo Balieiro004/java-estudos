@@ -21,7 +21,8 @@ public class Tecnico extends Pessoa {
 
     @Override
     public String toString() {
-        return super.toString() +
+        return "========================\n" +
+                super.toString() +
                 "\nEspecialidade: " + especialidade +
                 "\nTipo: Técnico";
     }

@@ -8,7 +8,8 @@ public class Colaborador extends Pessoa{
 
     @Override
     public String toString() {
-        return super.toString() +
+        return "========================\n" +
+                super.toString() +
                 "\nTipo: Colaborador";
     }
 }

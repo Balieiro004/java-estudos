@@ -14,6 +14,9 @@ public class Chamado {
 
     private StatusChamado statusChamado;
 
+    public Chamado() {
+    }
+
     public Chamado(String titulo, String descricao, Colaborador colaborador, Tecnico tecnicoResponsavel) {
         contador++;
         id = contador;
@@ -64,18 +67,28 @@ public class Chamado {
         return statusChamado;
     }
 
-    public void alterarStatus(StatusChamado novoStatus) {
-        this.statusChamado = novoStatus;
+    public void iniciarAtendimento() {
+        this.statusChamado = StatusChamado.EM_ANDAMENTO;
+    }
+
+    public void fecharChamado() {
+        this.statusChamado = StatusChamado.ENCERRADO;
+    }
+
+    public void reabrirChamado() {
+        this.statusChamado = StatusChamado.ABERTO;
     }
 
     @Override
     public String toString() {
-        return "Chamado" +
+        return "========================" +
+                "\nChamado" +
                 "\nId: " + id +
                 "\nTitulo: " + titulo +
                 "\nDescricao: " + descricao +
-                "\nColaborador: " + colaborador +
-                "\nTecnicoResponsavel: " + tecnicoResponsavel+
+                "\nColaborador: " + colaborador.getNome() +
+                "\nTecnico Responsavel: " + tecnicoResponsavel.getNome()+
+                "\nArea atuação do Técnico: " + tecnicoResponsavel.getEspecialidade() +
                 "\nStatusChamado: " + statusChamado;
     }
 }

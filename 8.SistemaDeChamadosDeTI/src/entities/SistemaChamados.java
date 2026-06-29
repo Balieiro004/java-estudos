@@ -23,53 +23,71 @@ public class SistemaChamados {
         return tecnicos;
     }
 
-    public String cadastrarChamado(String titulo, String descricao, Colaborador colaborador, Tecnico tecnicoResponsavel){
+    public Chamado cadastrarChamado(String titulo, String descricao, Colaborador colaborador, Tecnico tecnicoResponsavel){
         if(titulo == null || titulo.isEmpty()){
-            return "Titulo vazio";
+            return null;
         }
         if(descricao == null || descricao.isEmpty()){
-            return "O chamado precisa ter uma descrição ele está vazio";
+            return null;
         }
 
         if(colaborador == null){
-            return "Colaborador vazio";
+            return null;
         }
         if (tecnicoResponsavel == null){
-            return "Tecnico vazio";
+            return null;
         }
-        chamados.add(new Chamado(titulo, descricao, colaborador, tecnicoResponsavel));
-        return "Chamado cadastrado com sucesso";
+
+        Chamado chamado = new Chamado(titulo, descricao, colaborador, tecnicoResponsavel);
+        chamados.add(chamado);
+        return chamado;
     }
 
-    public String cadastrarColaborador(String nome, String email) {
+    public Colaborador cadastrarColaborador(String nome, String email) {
         if(nome == null || nome.isEmpty() || email == null || email.isEmpty()) {
-            return "Nome ou Email vazio";
+            return null;
         }
 
         if(buscarColaboradorPorEmail(email) != null) {
-            return "Já existe colaborador com esse email";
+            return null;
         }
 
-        colaboradores.add(new Colaborador(nome, email));
-        return "Colaborador cadastrado com sucesso!";
+        Colaborador colaborador = new Colaborador(nome, email);
+        colaboradores.add(colaborador);
+        return colaborador;
+
     }
 
-    public String cadastrarTecnico(String nome, String email, Especialidade especialidade) {
+    public Tecnico cadastrarTecnico(String nome, String email, Especialidade especialidade) {
         if(nome == null || nome.isEmpty() || email == null || email.isEmpty()) {
-            return "Nome ou Email vazio";
+            return null;
         }
         if(especialidade == null) {
-            return "O especialidade vazio";
+            return null;
         }
 
-        tecnicos.add(new Tecnico(nome, email, especialidade));
-        return "Tecnico cadastrado com sucesso!";
+        if(buscarTecnicoPorEmail(email) != null) {
+            return null;
+        }
+
+        Tecnico tecnico = new Tecnico(nome, email, especialidade);
+        tecnicos.add(tecnico);
+        return tecnico;
     }
 
     private Colaborador buscarColaboradorPorEmail(String email) {
         for (Colaborador colaborador : colaboradores) {
             if(colaborador.getEmail().equals(email)) {
                 return colaborador;
+            }
+        }
+        return null;
+    }
+
+    private Tecnico buscarTecnicoPorEmail(String email) {
+        for (Tecnico tecnico : tecnicos) {
+            if(tecnico.getEmail().equals(email)) {
+                return tecnico;
             }
         }
         return null;
@@ -91,5 +109,23 @@ public class SistemaChamados {
             }
         }
         return null;
+    }
+
+    public Chamado buscarChamadoPorId(int id) {
+        for (Chamado chamado : chamados) {
+            if (chamado.getId() == id) {
+                return chamado;
+            }
+        }
+        return null;
+    }
+
+    public String removerChamadoPorId(int id) {
+        Chamado chamado = buscarChamadoPorId(id);
+
+        if(chamado == null) return "Chamado não encontrado";
+
+        chamados.remove(chamado);
+        return "Chamado removido com sucesso";
     }
 }
