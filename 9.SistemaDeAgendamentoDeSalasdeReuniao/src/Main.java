@@ -31,7 +31,7 @@ public class Main {
                     int capacidade = sc.nextInt();
                     Sala sala = new Sala(nome, capacidade);
 
-                    sala = sistemaReservas.cadastrarSala(sala);
+                    sala = sistemaReservas.getSalaService().cadastrarSala(sala);
 
                     if(sala != null) {
                         System.out.println("Sala Cadastrada com sucesso!");
@@ -43,7 +43,7 @@ public class Main {
                     break;
                 }
                 case 2:{
-                    List<Sala> salas = sistemaReservas.getSalas();
+                    List<Sala> salas = sistemaReservas.getSalaService().getSalas();
 
                     for(Sala sala : salas){
                         System.out.println(sala);
@@ -56,11 +56,11 @@ public class Main {
                     System.out.print("Informe o id da sala: ");
                     int idSala = sc.nextInt();
 
-                    System.out.println(sistemaReservas.deletarSalaPorId(idSala));
+                    System.out.println(sistemaReservas.getSalaService().deletarSalaPorId(idSala));
                     break;
                 }
                 case 4:{
-                    executando = true;
+                    executando = false;
                     break;
                 }
             }
