@@ -1,7 +1,11 @@
 import entities.Colaborador;
+import entities.Reserva;
 import entities.Sala;
 import entities.SistemaReservas;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -23,6 +27,8 @@ public class Main {
             System.out.println("4 - Cadastrar Colaborador");
             System.out.println("5 - Listar Colaboradores");
             System.out.println("6 - Deletar Colaborador");
+            System.out.println("7 - Criar Reserva");
+            System.out.println("8 - Listar Reservas");
 
             System.out.print("Opção: ");
             int opcao = sc.nextInt();
@@ -102,14 +108,40 @@ public class Main {
                 }
                 case 6:{
                     System.out.println("Deletar Colaborador");
-                    System.out.print("Informe o id do colaborador: ");
-                    int idColaborador = sc.nextInt();
+                    Colaborador colaborador = obterColaborador(sc, sistemaReservas);
 
-                    System.out.println(sistemaReservas.getColaboradorService().deletarColaboradorPorId(idColaborador));
+                    if(colaborador == null) {break;}
+
+                    System.out.println(sistemaReservas.getColaboradorService().deletarColaboradorPorId(colaborador.getId()));
                     break;
 
                 }
                 case 7:{
+                    System.out.println("Criar Reserva");
+
+                    Colaborador colaborador = obterColaborador(sc, sistemaReservas);
+                    if(colaborador == null) {break;}
+
+                    Sala sala = obterSala(sc, sistemaReservas);
+                    if(sala == null) {break;}
+
+                    System.out.print("Data (dd/MM/yyyy): ");
+                    LocalDate data = LocalDate.parse(sc.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+                    System.out.print("Hora Inicio (HH:mm): ");
+                    LocalTime horaInicio = LocalTime.parse(sc.next(), DateTimeFormatter.ofPattern("HH:mm"));
+
+                    System.out.print("Hora Fim (HH:mm): ");
+                    LocalTime horaFim = LocalTime.parse(sc.next(), DateTimeFormatter.ofPattern("HH:mm"));
+
+                    Reserva reserva = sistemaReservas.getReservaService().criarReserva(colaborador, sala, data, horaInicio, horaFim);
+
+                    if(reserva == null) {
+                        System.out.println("Não foi possivel criar a Reserva!");
+                    }else {
+                        System.out.println("Reserva Criada com sucesso!");
+                        System.out.println(reserva);
+                    }
 
                     break;
 
@@ -121,7 +153,35 @@ public class Main {
                 }
             }
         }
-
         sc.close();
     }
+
+    private static Colaborador obterColaborador(Scanner sc, SistemaReservas sistemaReservas) {
+        System.out.print("Informe o id do colaborador: ");
+        int id = sc.nextInt();
+
+
+        Colaborador colaborador = sistemaReservas
+                .getColaboradorService()
+                .buscarColaboradorPorId(id);
+
+        if (colaborador == null) {
+            System.out.println("Colaborador não encontrado!");
+        }
+
+        return colaborador;
+    }
+
+    private static Sala obterSala(Scanner sc, SistemaReservas sistemaReservas) {
+        System.out.print("Informe o id do sala: ");
+        int id = sc.nextInt();
+
+        Sala sala = sistemaReservas.getSalaService().buscarSalaPorId(id);
+
+        if (sala == null) {
+            System.out.println("Sala nao encontrada!");
+        }
+        return sala;
+    }
 }
+

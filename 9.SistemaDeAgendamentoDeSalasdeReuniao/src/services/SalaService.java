@@ -38,7 +38,7 @@ public class SalaService {
         return null;
     }
 
-    private Sala buscarSalaPorId(int id) {
+    public Sala buscarSalaPorId(int id) {
         for(Sala sala : salas){
             if(sala.getId() == id) return sala;
         }

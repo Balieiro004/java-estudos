@@ -47,7 +47,7 @@ public class ColaboradorService {
         return null;
     }
 
-    private Colaborador buscarColaboradorPorId(int id) {
+    public Colaborador buscarColaboradorPorId(int id) {
         for(Colaborador colaborador: colaboradores) {
             if(colaborador.getId() == id) return colaborador;
         }
