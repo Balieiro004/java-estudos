@@ -1,3 +1,4 @@
+import entities.Colaborador;
 import entities.Sala;
 import entities.SistemaReservas;
 
@@ -19,6 +20,9 @@ public class Main {
             System.out.println("1 - Cadastrar Sala");
             System.out.println("2 - Listar Salas");
             System.out.println("3 - Deletar Sala");
+            System.out.println("4 - Cadastrar Colaborador");
+            System.out.println("5 - Listar Colaboradores");
+            System.out.println("6 - Deletar Colaborador");
 
             System.out.print("Opção: ");
             int opcao = sc.nextInt();
@@ -60,8 +64,60 @@ public class Main {
                     break;
                 }
                 case 4:{
+                    System.out.println("Cadastrar Colaborador");
+                    System.out.print("Nome: ");
+                    String nome = sc.next();
+                    System.out.print("Email: ");
+                    String email = sc.next();
+
+                    Colaborador colaborador = new Colaborador(nome, email);
+
+                    colaborador = sistemaReservas.getColaboradorService().cadastrarColaborador(colaborador);
+                    if(colaborador != null) {
+                        System.out.println("Colaborador Cadastrado com sucesso!");
+                        System.out.println(colaborador);
+                    }else {
+                        System.out.println("Erro ao cadastrar Colaborador!");
+                    }
+
+                    sc.nextLine();
+                    System.out.println("========================\nDe um ENTER para continuar.");
+                    sc.nextLine();
+                    break;
+                }
+                case 5:{
+                    List<Colaborador> colaboradores = sistemaReservas.getColaboradorService().getColaboradores();
+
+                    if (colaboradores.isEmpty()) {
+                        System.out.println("Lista vazia!");
+                        break;
+                    }
+
+                    for(Colaborador colaborador:colaboradores){
+                        System.out.println(colaborador);
+                    }
+
+                    break;
+
+                }
+                case 6:{
+                    System.out.println("Deletar Colaborador");
+                    System.out.print("Informe o id do colaborador: ");
+                    int idColaborador = sc.nextInt();
+
+                    System.out.println(sistemaReservas.getColaboradorService().deletarColaboradorPorId(idColaborador));
+                    break;
+
+                }
+                case 7:{
+
+                    break;
+
+                }
+                case 8:{
                     executando = false;
                     break;
+
                 }
             }
         }
