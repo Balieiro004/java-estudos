@@ -9,6 +9,11 @@ public class ColaboradorService {
 
     private List<Colaborador> colaboradores = new ArrayList<>();
 
+
+    public ColaboradorService() {
+        carregarColaboradoresMock();
+    }
+
     public List<Colaborador> getColaboradores() {
         return colaboradores;
     }
@@ -52,5 +57,18 @@ public class ColaboradorService {
             if(colaborador.getId() == id) return colaborador;
         }
         return null;
+    }
+
+    private void carregarColaboradoresMock() {
+        this.colaboradores.add(new Colaborador("Anderson", "anderson@email.com"));
+        this.colaboradores.add(new Colaborador("Maria Silva", "maria.silva@email.com"));
+        this.colaboradores.add(new Colaborador("João Pereira", "joao.pereira@email.com"));
+        this.colaboradores.add(new Colaborador("Ana Costa", "ana.costa@email.com"));
+        this.colaboradores.add(new Colaborador("Carlos Souza", "carlos.souza@email.com"));
+        this.colaboradores.add(new Colaborador("Fernanda Oliveira", "fernanda.oliveira@email.com"));
+        this.colaboradores.add(new Colaborador("Lucas Martins", "lucas.martins@email.com"));
+        this.colaboradores.add(new Colaborador("Juliana Almeida", "juliana.almeida@email.com"));
+        this.colaboradores.add(new Colaborador("Ricardo Lima", "ricardo.lima@email.com"));
+        this.colaboradores.add(new Colaborador("Patrícia Rocha", "patricia.rocha@email.com"));
     }
 }

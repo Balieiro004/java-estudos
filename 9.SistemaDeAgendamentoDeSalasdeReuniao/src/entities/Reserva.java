@@ -28,6 +28,8 @@ public class Reserva {
         return colaborador;
     }
 
+    public int getId() {return id;}
+
     public void setColaborador(Colaborador colaborador) {
         this.colaborador = colaborador;
     }

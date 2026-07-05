@@ -29,6 +29,8 @@ public class Main {
             System.out.println("6 - Deletar Colaborador");
             System.out.println("7 - Criar Reserva");
             System.out.println("8 - Listar Reservas");
+            System.out.println("9 - Deletar Reserva");
+            System.out.println("0 - Sair");
 
             System.out.print("Opção: ");
             int opcao = sc.nextInt();
@@ -55,10 +57,19 @@ public class Main {
                 case 2:{
                     List<Sala> salas = sistemaReservas.getSalaService().getSalas();
 
+                    if(salas.isEmpty()) {
+                        System.out.println("Sala Vazia!");
+                    }
+
                     for(Sala sala : salas){
                         System.out.println(sala);
                         System.out.println("=====================");
                     }
+
+                    sc.nextLine();
+                    System.out.println("========================\nDe um ENTER para continuar.");
+                    sc.nextLine();
+
                     break;
                 }
                 case 3:{
@@ -102,6 +113,10 @@ public class Main {
                     for(Colaborador colaborador:colaboradores){
                         System.out.println(colaborador);
                     }
+
+                    sc.nextLine();
+                    System.out.println("========================\nDe um ENTER para continuar.");
+                    sc.nextLine();
 
                     break;
 
@@ -147,7 +162,36 @@ public class Main {
 
                 }
                 case 8:{
+                    System.out.println("Listar Reservas");
+                    List<Reserva> reservas = sistemaReservas.getReservaService().getReservas();
+
+                    if (reservas.isEmpty()) {
+                        System.out.println("Lista vazia!");
+                    }
+
+                    for(Reserva reserva:reservas){
+                        System.out.println(reserva);
+                    }
+
+                    sc.nextLine();
+                    System.out.println("========================\nDe um ENTER para continuar.");
+                    sc.nextLine();
+                    break;
+
+                }
+                case 9:{
+                    System.out.println("Excluir Reserva");
+                    System.out.print("Informe o id da Reserve: ");
+                    int idReserva = sc.nextInt();
+
+                    System.out.println(sistemaReservas.getReservaService().deletarReserva(idReserva));
+
+                    break;
+
+                }
+                case 0:{
                     executando = false;
+                    System.out.println("Saindo.....");
                     break;
 
                 }
@@ -181,6 +225,7 @@ public class Main {
         if (sala == null) {
             System.out.println("Sala nao encontrada!");
         }
+        sc.nextLine();
         return sala;
     }
 }

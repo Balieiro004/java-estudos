@@ -9,6 +9,10 @@ public class SalaService {
 
     private List<Sala> salas = new ArrayList<>();
 
+    public SalaService() {
+        carregarSalasMock();
+    }
+
     public List<Sala> getSalas() {
         return salas;
     }
@@ -44,4 +48,12 @@ public class SalaService {
         }
         return null;
     }
+
+    private void carregarSalasMock(){
+        this.salas.add(new Sala("Sala Java",10));
+        this.salas.add(new Sala("Sala Python",20));
+        this.salas.add(new Sala("Sala C++",30));
+        this.salas.add(new Sala("Sala C#",40));
+    }
+
 }

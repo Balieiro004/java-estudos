@@ -19,6 +19,8 @@ public class ReservaService {
     public ReservaService(ColaboradorService colaboradorService, SalaService salaService) {
         this.colaboradorService = colaboradorService;
         this.salaService = salaService;
+
+        carregarReservasMock();
     }
 
     public List<Reserva> getReservas() {
@@ -51,5 +53,58 @@ public class ReservaService {
         Reserva reserva = new Reserva(colaborador, sala, data, horaInicial, horaFinal);
         reservas.add(reserva);
         return reserva;
+    }
+
+    public String deletarReserva(int idReserva){
+        Reserva reserva = buscaReservaPorId(idReserva);
+
+        if(reserva == null) return "Reserva não encontrada";
+
+        reservas.remove(reserva);
+        return "Reserva deletada com sucesso";
+    }
+
+    private Reserva buscaReservaPorId(int idReserva){
+        for(Reserva reserva : reservas){
+            if(reserva.getId() == idReserva) return reserva;
+        }
+        return null;
+    }
+
+    private void carregarReservasMock() {
+        reservas.add(new Reserva(
+                colaboradorService.getColaboradores().get(0),
+                salaService.getSalas().get(0),
+                LocalDate.now().plusDays(1),
+                LocalTime.of(9, 0),
+                LocalTime.of(10, 0)));
+
+        reservas.add(new Reserva(
+                colaboradorService.getColaboradores().get(1),
+                salaService.getSalas().get(1),
+                LocalDate.now().plusDays(1),
+                LocalTime.of(10, 30),
+                LocalTime.of(11, 30)));
+
+        reservas.add(new Reserva(
+                colaboradorService.getColaboradores().get(2),
+                salaService.getSalas().get(0),
+                LocalDate.now().plusDays(2),
+                LocalTime.of(14, 0),
+                LocalTime.of(15, 0)));
+
+        reservas.add(new Reserva(
+                colaboradorService.getColaboradores().get(3),
+                salaService.getSalas().get(2),
+                LocalDate.now().plusDays(3),
+                LocalTime.of(8, 0),
+                LocalTime.of(9, 30)));
+
+        reservas.add(new Reserva(
+                colaboradorService.getColaboradores().get(4),
+                salaService.getSalas().get(1),
+                LocalDate.now().plusDays(3),
+                LocalTime.of(16, 0),
+                LocalTime.of(17, 0)));
     }
 }
