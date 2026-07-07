@@ -77,4 +77,16 @@ public class Locacao {
     public void setValorDiaria(double valorDiaria) {
         this.valorDiaria = valorDiaria;
     }
+
+    @Override
+    public String toString() {
+        return "Locacao" +
+                "\nId=" + id +
+                "\nCliente: " + cliente.getNome() +
+                "\nVeiculo: " + veiculo.getModelo() +
+                "\nDataRetirada: " + dataRetirada +
+                "\nDataPrevistaDevolucao: " + dataPrevistaDevolucao +
+                "\nDataDevolucao: " + dataDevolucao +
+                "\nValorDiaria: " + valorDiaria;
+    }
 }

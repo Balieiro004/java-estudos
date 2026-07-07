@@ -1,17 +1,20 @@
 package ui;
 
 import entities.Cliente;
+import entities.Locacao;
 import entities.Veiculo;
 import enums.CategoriaVeiculo;
-import enums.StatusVeiculo;
 import system.SistemaLocadora;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
 
     Scanner sc = new Scanner(System.in);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private SistemaLocadora sistema;
 
     public Menu(SistemaLocadora sistema) {
@@ -97,6 +100,8 @@ public class Menu {
         String placa = sc.nextLine();
         System.out.print("Ano: ");
         int ano = sc.nextInt();
+        System.out.println("Valor da diaria: ");
+        double valorDiaria = sc.nextDouble();
         System.out.print("Categoria: ");
         String categoria = sc.next();
 
@@ -104,7 +109,7 @@ public class Menu {
 
 
         try{
-            Veiculo veiculo = sistema.getVeiculoService().cadastrarVeiculo(modelo, placa, ano, categoriaVeiculo);
+            Veiculo veiculo = sistema.getVeiculoService().cadastrarVeiculo(modelo, placa, ano, valorDiaria, categoriaVeiculo);
             System.out.println("Veiculo cadastrado com sucesso!");
             System.out.println(veiculo);
 
@@ -176,6 +181,31 @@ public class Menu {
         try{
             sistema.getVeiculoService().excluirVeiculoPorPlaca(placa);
             System.out.println("Veiculo excluido com sucesso!");
+        }catch(IllegalArgumentException e){
+            System.out.println("erro: " + e.getMessage());
+        }
+    }
+
+    public void criarLocacao(){
+        System.out.println("Locação de veiculo");
+        System.out.print("Id Cliente: ");
+        int idCliente = sc.nextInt();
+
+        System.out.print("Id do Veiculo: ");
+        int idVeiculo = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Data Retirada (dd/MM/yyyy): ");
+        LocalDate dataRetirada = LocalDate.parse(sc.nextLine(), formatter);
+
+        System.out.print("Data Devolução (dd/MM/yyyy): ");
+        LocalDate dataDevolucao = LocalDate.parse(sc.nextLine(), formatter);
+
+
+        try{
+            Locacao locacao = sistema.getLocacaoService().criarLocacao(idCliente, idVeiculo, dataRetirada, dataDevolucao);
+            System.out.println("Locacao criada com sucesso!");
+            System.out.println(locacao);
         }catch(IllegalArgumentException e){
             System.out.println("erro: " + e.getMessage());
         }

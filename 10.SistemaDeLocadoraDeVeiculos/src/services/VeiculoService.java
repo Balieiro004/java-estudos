@@ -17,7 +17,7 @@ public class VeiculoService {
         return veiculos;
     }
 
-    public  Veiculo cadastrarVeiculo(String modelo, String placa, int ano, CategoriaVeiculo categoria){
+    public  Veiculo cadastrarVeiculo(String modelo, String placa, int ano, double valorDiaria, CategoriaVeiculo categoria){
 
         if(modelo == null || modelo.isBlank()){
             throw new IllegalArgumentException("Modelo é obrigatório.");
@@ -35,7 +35,11 @@ public class VeiculoService {
             throw new IllegalArgumentException("Categoria é obrigatório");
         }
 
-        Veiculo veiculo = new Veiculo(modelo, placa, ano, categoria);
+        if(buscarVeiculoPorPlaca(placa) != null){
+            throw new IllegalArgumentException("Já existe um veiculo cadastrado com essa placa.");
+        }
+
+        Veiculo veiculo = new Veiculo(modelo, placa, ano, valorDiaria, categoria);
         veiculos.add(veiculo);
         return veiculo;
     }
@@ -81,6 +85,7 @@ public class VeiculoService {
                 "Volkswagen Gol",
                 "ABC1D23",
                 2021,
+                180,
                 CategoriaVeiculo.HATCH
         );
 
@@ -88,6 +93,7 @@ public class VeiculoService {
                 "Toyota Corolla",
                 "EFG4H56",
                 2023,
+                150,
                 CategoriaVeiculo.SEDAN
         );
 
@@ -95,6 +101,7 @@ public class VeiculoService {
                 "Jeep Compass",
                 "IJK7L89",
                 2022,
+                170,
                 CategoriaVeiculo.SUV
         );
 
@@ -102,6 +109,7 @@ public class VeiculoService {
                 "Fiat Strada",
                 "MNO1P23",
                 2024,
+                200,
                 CategoriaVeiculo.PICAPE
         );
 
@@ -109,6 +117,7 @@ public class VeiculoService {
                 "Honda CG 160",
                 "QRS4T56",
                 2020,
+                100,
                 CategoriaVeiculo.MOTO
         );
     }

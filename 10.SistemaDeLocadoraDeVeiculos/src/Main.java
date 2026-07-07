@@ -23,6 +23,7 @@ public class Main {
             System.out.println("08 - Buscar Veiculo por Id");
             System.out.println("09 - Excluir Veiculo por Id");
             System.out.println("10 - Excluir Veiculo por Placa");
+            System.out.println("11 - Alugar Veiculo");
             System.out.println("0 - Sair");
             System.out.print("Opção: ");
             int opcao = sc.nextInt();
@@ -57,8 +58,12 @@ public class Main {
                 case 10:
                     menu.excluirVeiculoPorPlaca();
                     break;
+                case 11:
+                    menu.criarLocacao();
+                    break;
                 case 0:
                     executando = false;
+                    System.out.println("Saindo....");
                     break;
                 default:
                     System.out.println("Opção invalida");

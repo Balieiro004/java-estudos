@@ -10,15 +10,17 @@ public class Veiculo {
     private String modelo;
     private String placa;
     private int ano;
+    private double valorDiaria;
     private CategoriaVeiculo categoria;
     private StatusVeiculo status;
 
-    public Veiculo(String modelo, String placa, int ano, CategoriaVeiculo categoria) {
+    public Veiculo(String modelo, String placa, int ano,double valorDiaria, CategoriaVeiculo categoria) {
         contador++;
         this.id = contador;
         this.modelo = modelo;
         this.placa = placa;
         this.ano = ano;
+        this.valorDiaria = valorDiaria;
         this.categoria = categoria;
         this.status = StatusVeiculo.DISPONIVEL;
     }
@@ -67,6 +69,14 @@ public class Veiculo {
         this.status = status;
     }
 
+    public double getValorDiaria() {
+        return valorDiaria;
+    }
+
+    public void setValorDiaria(double valorDiaria) {
+        this.valorDiaria = valorDiaria;
+    }
+
     @Override
     public String toString() {
         return "Veiculo" +
@@ -74,6 +84,7 @@ public class Veiculo {
                 "\nModelo: " + modelo +
                 "\nPlaca: " + placa +
                 "\nAno: " + ano +
+                "\nValor diaria: " + valorDiaria +
                 "\nCategoria: " + categoria +
                 "\nStatus:" + status;
     }

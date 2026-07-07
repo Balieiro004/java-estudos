@@ -33,6 +33,10 @@ public class ClienteService {
             throw new IllegalArgumentException("Já existe um cliente cadastrado com esse nome.");
         }
 
+        if(buscarClientePorCpf(cpf) != null){
+            throw new IllegalArgumentException("Já existe um cliente cadastrado com esse cpf.");
+        }
+
         Cliente cliente = new Cliente(nome,cpf,telefone);
         clientes.add(cliente);
         return cliente;
@@ -63,6 +67,15 @@ public class ClienteService {
             throw new IllegalArgumentException("Cliente não encontrado.");
         }
         clientes.remove(cliente);
+    }
+
+    public Cliente buscarClientePorCpf(String cpf){
+        for(Cliente cliente : clientes){
+            if(cliente.getCpf().equals(cpf)){
+                return cliente;
+            }
+        }
+        return null;
     }
 
 
