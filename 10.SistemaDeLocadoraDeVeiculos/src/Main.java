@@ -13,11 +13,17 @@ public class Main {
 
         while (executando) {
             System.out.println("Menu");
-            System.out.println("1 - Cadastrar cliente");
-            System.out.println("2 - Listar clientes");
-            System.out.println("3 - Buscar Cliente por ID");
-            System.out.println("4 - Excluir cliente");
-            System.out.println("5 - Sair");
+            System.out.println("01 - Cadastrar cliente");
+            System.out.println("02 - Listar clientes");
+            System.out.println("03 - Buscar Cliente por ID");
+            System.out.println("04 - Excluir cliente");
+            System.out.println("05 - Cadastrar Veiculo");
+            System.out.println("06 - Listar Veiculos");
+            System.out.println("07 - Buscar Veiculo por Placa");
+            System.out.println("08 - Buscar Veiculo por Id");
+            System.out.println("09 - Excluir Veiculo por Id");
+            System.out.println("10 - Excluir Veiculo por Placa");
+            System.out.println("0 - Sair");
             System.out.print("Opção: ");
             int opcao = sc.nextInt();
             switch (opcao) {
@@ -34,6 +40,25 @@ public class Main {
                     menu.deletarCliente();
                     break;
                 case 5:
+                    menu.cadastrarVeiculo();
+                    break;
+                case 6:
+                    menu.listarVeiculos();
+                    break;
+                case 7:
+                    menu.buscarVeiculoPorPlaca();
+                    break;
+                case 8:
+                    menu.buscarVeiculoPorId();
+                    break;
+                case 9:
+                    menu.excluirVeiculoPorId();
+                    break;
+                case 10:
+                    menu.excluirVeiculoPorPlaca();
+                    break;
+                case 0:
+                    executando = false;
                     break;
                 default:
                     System.out.println("Opção invalida");

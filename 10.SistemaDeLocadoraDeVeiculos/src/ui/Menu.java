@@ -1,6 +1,9 @@
 package ui;
 
 import entities.Cliente;
+import entities.Veiculo;
+import enums.CategoriaVeiculo;
+import enums.StatusVeiculo;
 import system.SistemaLocadora;
 
 import java.util.List;
@@ -73,7 +76,7 @@ public class Menu {
         int id = sc.nextInt();
 
         try{
-            sistema.getClienteService().deletarCliente(id);
+            sistema.getClienteService().excluirClientePorId(id);
             System.out.println("Cliente deletado com sucesso!");
         }catch(IllegalArgumentException e){
             System.out.println("erro: " + e.getMessage());
@@ -83,5 +86,98 @@ public class Menu {
         System.out.println("Tecle ENTER para continuar");
         sc.nextLine();
 
+    }
+
+    public void cadastrarVeiculo(){
+        System.out.println("Cadastrando Veiculo");
+
+        System.out.print("Modelo: ");
+        String modelo = sc.nextLine();
+        System.out.print("Placa: ");
+        String placa = sc.nextLine();
+        System.out.print("Ano: ");
+        int ano = sc.nextInt();
+        System.out.print("Categoria: ");
+        String categoria = sc.next();
+
+        CategoriaVeiculo categoriaVeiculo = CategoriaVeiculo.valueOf(categoria);
+
+
+        try{
+            Veiculo veiculo = sistema.getVeiculoService().cadastrarVeiculo(modelo, placa, ano, categoriaVeiculo);
+            System.out.println("Veiculo cadastrado com sucesso!");
+            System.out.println(veiculo);
+
+            System.out.println("Tecle ENTER para continuar");
+            sc.nextLine();
+        }catch(IllegalArgumentException e){
+            System.out.println("erro: " + e.getMessage());
+
+            System.out.println("Tecle ENTER para continuar");
+            sc.nextLine();
+        }
+    }
+
+    public void listarVeiculos(){
+        List<Veiculo> listVeiculos = sistema.getVeiculoService().getVeiculos();
+
+        for(Veiculo veiculo : listVeiculos){
+            System.out.println(veiculo);
+        }
+        System.out.println("Tecle ENTER para continuar");
+        sc.nextLine();
+    }
+
+    public void buscarVeiculoPorPlaca(){
+        System.out.println("Buscando Veiculo por placa");
+        System.out.print("Placa: ");
+        String placa = sc.nextLine();
+
+        Veiculo veiculo = sistema.getVeiculoService().buscarVeiculoPorPlaca(placa);
+
+        if(veiculo != null){
+            System.out.println(veiculo);
+        }else{
+            System.out.println("Placa não encontrada.");
+        }
+    }
+
+    public void buscarVeiculoPorId(){
+        System.out.println("Buscando Veiculo por id");
+        System.out.print("Id do Veiculo: ");
+        int id = sc.nextInt();
+
+        Veiculo veiculo = sistema.getVeiculoService().buscarVeiculoPorId(id);
+        if(veiculo != null){
+            System.out.println(veiculo);
+        }else{
+            System.out.println("Veiculo não encontrado.");
+        }
+    }
+
+    public void excluirVeiculoPorId(){
+        System.out.println("Excluir Veiculo por id");
+        System.out.print("Id do Veiculo: ");
+        int id = sc.nextInt();
+
+        try{
+            sistema.getVeiculoService().excluirVeiculoPorId(id);
+            System.out.println("Veiculo excluido com sucesso!");
+        }catch(IllegalArgumentException e){
+            System.out.println("erro: " + e.getMessage());
+        }
+    }
+
+    public void excluirVeiculoPorPlaca(){
+        System.out.println("Excluir Veiculo por placa");
+        System.out.print("Placa: ");
+        String placa = sc.nextLine();
+
+        try{
+            sistema.getVeiculoService().excluirVeiculoPorPlaca(placa);
+            System.out.println("Veiculo excluido com sucesso!");
+        }catch(IllegalArgumentException e){
+            System.out.println("erro: " + e.getMessage());
+        }
     }
 }

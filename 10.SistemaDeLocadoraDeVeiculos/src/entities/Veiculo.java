@@ -1,5 +1,6 @@
 package entities;
 
+import enums.CategoriaVeiculo;
 import enums.StatusVeiculo;
 
 public class Veiculo {
@@ -9,17 +10,17 @@ public class Veiculo {
     private String modelo;
     private String placa;
     private int ano;
-    private String categoria;
+    private CategoriaVeiculo categoria;
     private StatusVeiculo status;
 
-    public Veiculo(String modelo, String placa, int ano, String categoria, StatusVeiculo status) {
+    public Veiculo(String modelo, String placa, int ano, CategoriaVeiculo categoria) {
         contador++;
         this.id = contador;
         this.modelo = modelo;
         this.placa = placa;
         this.ano = ano;
         this.categoria = categoria;
-        this.status = status;
+        this.status = StatusVeiculo.DISPONIVEL;
     }
 
     public int getId() {
@@ -50,11 +51,11 @@ public class Veiculo {
         this.ano = ano;
     }
 
-    public String getCategoria() {
+    public CategoriaVeiculo getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(CategoriaVeiculo categoria) {
         this.categoria = categoria;
     }
 

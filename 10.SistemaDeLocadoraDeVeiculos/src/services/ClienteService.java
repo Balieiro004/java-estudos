@@ -47,9 +47,6 @@ public class ClienteService {
         return null;
     }
 
-    public void removerCliente(Cliente cliente){
-    }
-
     public Cliente buscarClientePorId(int id){
         for (Cliente cliente : clientes) {
             if(cliente.getId()==id){
@@ -59,7 +56,7 @@ public class ClienteService {
         return null;
     }
 
-    public void deletarCliente(int id){
+    public void excluirClientePorId(int id){
         Cliente cliente = buscarClientePorId(id);
 
         if(cliente == null){
