@@ -81,7 +81,7 @@ public class Locacao {
     @Override
     public String toString() {
         return "Locacao" +
-                "\nId=" + id +
+                "\nId: " + id +
                 "\nCliente: " + cliente.getNome() +
                 "\nVeiculo: " + veiculo.getModelo() +
                 "\nDataRetirada: " + dataRetirada +

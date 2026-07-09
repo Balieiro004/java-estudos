@@ -24,6 +24,10 @@ public class Main {
             System.out.println("09 - Excluir Veiculo por Id");
             System.out.println("10 - Excluir Veiculo por Placa");
             System.out.println("11 - Alugar Veiculo");
+            System.out.println("12 - Listar locações");
+            System.out.println("13 - Buscar Locacao por Id");
+            System.out.println("14 - Devolver Veiculo");
+            System.out.println("15 - Cancelar Locacao PorId");
             System.out.println("0 - Sair");
             System.out.print("Opção: ");
             int opcao = sc.nextInt();
@@ -60,6 +64,18 @@ public class Main {
                     break;
                 case 11:
                     menu.criarLocacao();
+                    break;
+                case 12:
+                    menu.listarLocacao();
+                    break;
+                case 13:
+                    menu.buscarLocacaoPorId();
+                    break;
+                case 14:
+                    menu.devolverVeiculoPorId();
+                    break;
+                case 15:
+                    menu.cancelarLocacaoPorId();
                     break;
                 case 0:
                     executando = false;

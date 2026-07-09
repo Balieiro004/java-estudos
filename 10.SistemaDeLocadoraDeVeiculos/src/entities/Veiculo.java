@@ -65,8 +65,16 @@ public class Veiculo {
         return status;
     }
 
-    public void setStatus(StatusVeiculo status) {
-        this.status = status;
+    public void alugar(){
+        this.status = StatusVeiculo.ALUGADO;
+    }
+
+    public void devolver(){
+        this.status = StatusVeiculo.DISPONIVEL;
+    }
+
+    public void emManutencao(){
+        this.status = StatusVeiculo.MANUTENCAO;
     }
 
     public double getValorDiaria() {

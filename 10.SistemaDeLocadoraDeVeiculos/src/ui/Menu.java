@@ -210,4 +210,55 @@ public class Menu {
             System.out.println("erro: " + e.getMessage());
         }
     }
+
+    public void listarLocacao(){
+        List<Locacao> locacoes = sistema.getLocacaoService().getLocacoes();
+
+        if(locacoes.isEmpty()){
+            System.out.println("Lista Vazia.");
+        }
+        for(Locacao locacao : locacoes){
+            System.out.println(locacao);
+        }
+    }
+
+    public void buscarLocacaoPorId(){
+        System.out.println("Buscando Locacao por id");
+        System.out.print("Id do Locacao: ");
+        int id = sc.nextInt();
+
+        Locacao locacao = sistema.getLocacaoService().buscarLocacaoPorId(id);
+
+        if(locacao != null){
+            System.out.println(locacao);
+        }else{
+            System.out.println("Locação não encontrada.");
+        }
+    }
+
+    public void devolverVeiculoPorId(){
+        System.out.println("Devolver Veiculo por id");
+        System.out.print("Id do Veiculo: ");
+        int id = sc.nextInt();
+
+        try{
+            sistema.getLocacaoService().devolverVeiculoPorId(id);
+            System.out.println("Veiculo devolvido com sucesso!");
+
+        }catch(IllegalArgumentException e){
+            System.out.println("erro: " + e.getMessage());
+        }
+    }
+
+    public void cancelarLocacaoPorId(){
+        System.out.println("Cancelar Locacao por id");
+        System.out.print("Id do Locacao: ");
+        int id = sc.nextInt();
+        try{
+            sistema.getLocacaoService().cancelarLocacaoPorId(id);
+            System.out.println("Locacao cancelada com sucesso!");
+        }catch(IllegalArgumentException e){
+            System.out.println("erro: " + e.getMessage());
+        }
+    }
 }
