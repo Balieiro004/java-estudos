@@ -45,6 +45,16 @@ public class Produto {
         this.estoque = estoque;
     }
 
+    public void diminuirEstoque(int quantidade){
+        if(quantidade > estoque){throw  new IllegalArgumentException("Estoque insuficiente");}
+
+        estoque -= quantidade;
+    }
+
+    public void aumentarEstoque(int quantidade){
+        estoque += quantidade;
+    }
+
     @Override
     public String toString() {
         return "=======Produto=======" +

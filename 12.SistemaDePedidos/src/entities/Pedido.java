@@ -59,4 +59,21 @@ public class Pedido {
         }
         return total;
     }
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("========Pedido========\n");
+        sb.append("ID: ").append(id).append("\n");
+        sb.append("").append(cliente).append("\n");
+        sb.append("Data: ").append(data).append("\n");
+        sb.append("Status: ").append(status).append("\n");
+        sb.append("Itens:\n");
+
+        itens.forEach(item -> sb.append(item.toString()).append("\n"));
+
+        return sb.toString();
+    }
 }

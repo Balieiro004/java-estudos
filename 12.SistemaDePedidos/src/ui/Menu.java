@@ -1,6 +1,7 @@
 package ui;
 
 import entities.Cliente;
+import entities.Pedido;
 import entities.Produto;
 import system.SistemaPedidos;
 
@@ -33,7 +34,10 @@ public class Menu {
             System.out.println("6.Listar Produto");
             System.out.println("7.Buscar Produto por Id");
             System.out.println("8.Excluir Produto por Id");
-            System.out.println("9.");
+            System.out.println("9.Criar Pedido");
+            System.out.println("10.buscar Pedido Por Id");
+            System.out.println("11.adicionar Item ao Pedido");
+            System.out.println("12.");
             System.out.println("0. Sair");
 
             System.out.print("Opção: ");
@@ -65,6 +69,15 @@ public class Menu {
                     deletarProdutoPorId();
                     break;
                 case 9:
+                    criarPedido();
+                    break;
+                case 10:
+                    buscarPedidoPorId();
+                    break;
+                case 11:
+                    adicionarItem();
+                    break;
+                case 12:
                     break;
                 case 0:
                     System.out.println("Saindo.....");
@@ -194,5 +207,53 @@ public class Menu {
         }catch (Exception e){
             System.out.println("Erro: " + e.getMessage());
         }
+    }
+
+    private void criarPedido(){
+        System.out.println("========Criar Pedido========");
+        System.out.print("Id Cliene: ");
+        int id = Integer.parseInt(sc.nextLine());
+
+        try{
+            Pedido pedido = sistemaPedidos.getPedidoService().criarPedido(id);
+            System.out.println("Pedido criado com sucesso!");
+            System.out.println(pedido);
+        }catch (Exception e){
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    private void buscarPedidoPorId(){
+        System.out.println("========Buscar Pedido por Id========");
+
+        System.out.print("Id: ");
+        int id = Integer.parseInt(sc.nextLine());
+
+        Pedido pedido = sistemaPedidos.getPedidoService().buscarPedidoPorId(id);
+        if(pedido == null){
+            System.out.println("Pedido não encontrado!");
+        }else{
+            System.out.println(pedido);
+        }
+    }
+
+    private void adicionarItem(){
+        System.out.println("========Adicionar Item========");
+        System.out.print("Id Pedido: ");
+        int idPedido = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Id Produto: ");
+        int idProduto = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Quantidade: ");
+        int quantidade = Integer.parseInt(sc.nextLine());
+
+        try{
+            sistemaPedidos.getPedidoService().adicionarItem(idPedido, idProduto, quantidade);
+            System.out.println("Item adicionado com sucesso!");
+        }catch (IllegalArgumentException e){
+            System.out.println("Erro: " + e.getMessage());
+        }
+
     }
 }
