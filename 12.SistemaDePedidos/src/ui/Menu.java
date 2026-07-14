@@ -1,6 +1,7 @@
 package ui;
 
 import entities.Cliente;
+import entities.Produto;
 import system.SistemaPedidos;
 
 import java.time.format.DateTimeFormatter;
@@ -28,10 +29,10 @@ public class Menu {
             System.out.println("2.Listar Cliente");
             System.out.println("3.Buscar Cliente por Id");
             System.out.println("4.Excluir Cliente por Id");
-            System.out.println("5.");
-            System.out.println("6.");
-            System.out.println("7.");
-            System.out.println("8.");
+            System.out.println("5.Cadastrar Produto");
+            System.out.println("6.Listar Produto");
+            System.out.println("7.Buscar Produto por Id");
+            System.out.println("8.Excluir Produto por Id");
             System.out.println("9.");
             System.out.println("0. Sair");
 
@@ -46,18 +47,22 @@ public class Menu {
                     listarClientes();
                     break;
                 case 3:
-                    buscarClientePorCpf();
+                    buscarClientePorId();
                     break;
                 case 4:
                     deletarClientePorId();
                     break;
                 case 5:
+                    cadastrarProduto();
                     break;
                 case 6:
+                    listarProdutos();
                     break;
                 case 7:
+                    buscarProdutoPorId();
                     break;
                 case 8:
+                    deletarProdutoPorId();
                     break;
                 case 9:
                     break;
@@ -105,7 +110,7 @@ public class Menu {
         }
     }
 
-    private void buscarClientePorCpf(){
+    private void buscarClientePorId(){
         System.out.println("========Buscar Cliente por Id========");
         System.out.print("Id: ");
         int id = Integer.parseInt(sc.nextLine());
@@ -126,6 +131,66 @@ public class Menu {
         try{
             sistemaPedidos.getClienteService().deletarClientePorId(id);
             System.out.println("Cliente deletado com sucesso!");
+        }catch (Exception e){
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    private void cadastrarProduto(){
+        System.out.println("========Cadastrar Produto========");
+
+        System.out.print("Nome: ");
+        String nome = sc.nextLine();
+
+        System.out.print("Preco: ");
+        double preco = Double.parseDouble(sc.nextLine());
+
+        System.out.print("Estoque: ");
+        int estoque = Integer.parseInt(sc.nextLine());
+
+        try{
+            Produto produto = sistemaPedidos.getProdutoService().cadastrarProduto(nome, preco, estoque);
+            System.out.println("Produto cadastrado com sucesso!");
+            System.out.println(produto);
+        }catch (Exception e){
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    private void listarProdutos(){
+        List<Produto> produtos = sistemaPedidos.getProdutoService().listarProdutos();
+
+        if(produtos.isEmpty()){
+            System.out.println("Lista vazia.");
+        }else{
+            for(Produto produto:produtos){
+                System.out.println(produto);
+            }
+        }
+    }
+
+    private void buscarProdutoPorId(){
+        System.out.println("========Buscar Produto por Id========");
+        System.out.print("Id: ");
+        int id = Integer.parseInt(sc.nextLine());
+
+        Produto produto = sistemaPedidos.getProdutoService().buscarProdutoPorId(id);
+
+        if(produto == null){
+            System.out.println("Produto não encontrado!");
+        }else{
+            System.out.println(produto);
+        }
+    }
+
+    private void deletarProdutoPorId(){
+        System.out.println("========Excluir Produto por Id========");
+        System.out.print("Id: ");
+        int id = Integer.parseInt(sc.nextLine());
+
+        try{
+            sistemaPedidos.getProdutoService().deletarProdutoPorId(id);
+            System.out.println("Produto excluido com sucesso!");
         }catch (Exception e){
             System.out.println("Erro: " + e.getMessage());
         }
