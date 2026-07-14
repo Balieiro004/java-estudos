@@ -3,6 +3,7 @@ package services;
 import entities.Cliente;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ClienteService {
@@ -12,7 +13,7 @@ public class ClienteService {
     public ClienteService() {carregarClientesMock();}
 
     public List<Cliente> listarClientes() {
-        return clientes;
+        return Collections.unmodifiableList(clientes);
     }
 
     public Cliente cadastrarCliente(String nome, String cpf, String telefone) {
