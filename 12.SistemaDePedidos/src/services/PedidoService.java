@@ -55,7 +55,7 @@ public class PedidoService {
 
         Pedido pedido = buscarPedidoPorId(idPedido);
 
-        if(pedido == null){throw new IllegalArgumentException("Numero do pedido não existe");}
+        validarNumeroPedido(pedido);
 
         Produto produto = produtoService.buscarProdutoPorId(idProduto);
 
@@ -70,6 +70,44 @@ public class PedidoService {
         pedido.adicionarItem(itemPedido);
     }
 
+    public Pedido finalizarPedido(int idPedido){
+        Pedido pedido = buscarPedidoPorId(idPedido);
+
+        validarNumeroPedido(pedido);
+
+        if (pedido.getItens().isEmpty()){
+            throw new IllegalArgumentException("O pedido não possui itens.");
+        }
+
+        pedido.finalizado();
+
+        return pedido;
+    }
+
+    public Pedido cancelarPedido(int idPedido){
+        Pedido pedido = buscarPedidoPorId(idPedido);
+
+        validarNumeroPedido(pedido);
+
+        if(pedido.isCancelado()){
+            throw new IllegalArgumentException("Pedido já está cancelado.");
+        }
+
+        for(ItemPedido itemPedido : pedido.getItens()){
+            itemPedido.getProduto().aumentarEstoque(itemPedido.getQuantidade());
+        }
+
+        if(pedido.isFinalizado()){
+            throw new IllegalArgumentException("Não é possível cancelar um pedido finalizado.");
+        }
+
+        pedido.cancelado();
+        return pedido;
+    }
+
+    private void validarNumeroPedido(Pedido pedido){
+        if(pedido == null){throw new IllegalArgumentException("Numero do pedido não existe");}
+    }
 
     private void carregarPedidosMock() {
         criarPedido(1);

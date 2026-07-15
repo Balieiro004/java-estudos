@@ -37,7 +37,9 @@ public class Menu {
             System.out.println("9.Criar Pedido");
             System.out.println("10.buscar Pedido Por Id");
             System.out.println("11.adicionar Item ao Pedido");
-            System.out.println("12.");
+            System.out.println("12.Listar Pedidos");
+            System.out.println("13.finalizar Pedido");
+            System.out.println("14.Cancelar Pedido");
             System.out.println("0. Sair");
 
             System.out.print("Opção: ");
@@ -78,6 +80,13 @@ public class Menu {
                     adicionarItem();
                     break;
                 case 12:
+                    listarPedidos();
+                    break;
+                case 13:
+                    finalizarPedido();
+                    break;
+                case 14:
+                    cancelarPedido();
                     break;
                 case 0:
                     System.out.println("Saindo.....");
@@ -184,10 +193,9 @@ public class Menu {
 
     private void buscarProdutoPorId(){
         System.out.println("========Buscar Produto por Id========");
-        System.out.print("Id: ");
-        int id = Integer.parseInt(sc.nextLine());
+        int idPedido = lerIdPedido();
 
-        Produto produto = sistemaPedidos.getProdutoService().buscarProdutoPorId(id);
+        Produto produto = sistemaPedidos.getProdutoService().buscarProdutoPorId(idPedido);
 
         if(produto == null){
             System.out.println("Produto não encontrado!");
@@ -198,11 +206,10 @@ public class Menu {
 
     private void deletarProdutoPorId(){
         System.out.println("========Excluir Produto por Id========");
-        System.out.print("Id: ");
-        int id = Integer.parseInt(sc.nextLine());
+        int idPedido = lerIdPedido();
 
         try{
-            sistemaPedidos.getProdutoService().deletarProdutoPorId(id);
+            sistemaPedidos.getProdutoService().deletarProdutoPorId(idPedido);
             System.out.println("Produto excluido com sucesso!");
         }catch (Exception e){
             System.out.println("Erro: " + e.getMessage());
@@ -226,10 +233,9 @@ public class Menu {
     private void buscarPedidoPorId(){
         System.out.println("========Buscar Pedido por Id========");
 
-        System.out.print("Id: ");
-        int id = Integer.parseInt(sc.nextLine());
+        int idPedido = lerIdPedido();
 
-        Pedido pedido = sistemaPedidos.getPedidoService().buscarPedidoPorId(id);
+        Pedido pedido = sistemaPedidos.getPedidoService().buscarPedidoPorId(idPedido);
         if(pedido == null){
             System.out.println("Pedido não encontrado!");
         }else{
@@ -239,8 +245,7 @@ public class Menu {
 
     private void adicionarItem(){
         System.out.println("========Adicionar Item========");
-        System.out.print("Id Pedido: ");
-        int idPedido = Integer.parseInt(sc.nextLine());
+        int idPedido = lerIdPedido();
 
         System.out.print("Id Produto: ");
         int idProduto = Integer.parseInt(sc.nextLine());
@@ -254,6 +259,51 @@ public class Menu {
         }catch (IllegalArgumentException e){
             System.out.println("Erro: " + e.getMessage());
         }
+    }
 
+    private void listarPedidos(){
+        List<Pedido> pedidos = sistemaPedidos.getPedidoService().listarPedidos();
+
+        if(pedidos.isEmpty()){
+            System.out.println("Lista vazia.");
+        }else {
+            for(Pedido pedido:pedidos){
+                System.out.println(pedido);
+            }
+        }
+    }
+
+    private void finalizarPedido(){
+        System.out.println("========Finalizar Pedido========");
+        int idPedido = lerIdPedido();
+
+        try{
+            Pedido pedido = sistemaPedidos.getPedidoService().finalizarPedido(idPedido);
+
+            System.out.println("Pedido finalizado com sucesso!");
+            System.out.println("Total: R$ " + pedido.calcularTotal());
+
+        }catch (IllegalArgumentException e){
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    private void cancelarPedido(){
+        System.out.println("========Cancelar Pedido========");
+        int idPedido = lerIdPedido();
+
+        try{
+            Pedido pedido = sistemaPedidos.getPedidoService().cancelarPedido(idPedido);
+
+            System.out.println("Pedido cancelado com sucesso!");
+            System.out.println(pedido);
+        }catch (IllegalArgumentException e){
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    private int lerIdPedido() {
+        System.out.print("Id do Pedido: ");
+        return Integer.parseInt(sc.nextLine());
     }
 }

@@ -60,6 +60,22 @@ public class Pedido {
         return total;
     }
 
+    public void pendente(){this.status = StatusPedido.PENDENTE;}
+
+    public void pago(){this.status = StatusPedido.PAGO;}
+
+    public void enviado(){this.status = StatusPedido.ENVIADO;}
+
+    public void finalizado(){this.status = StatusPedido.FINALIZADO;}
+
+    public void cancelado(){this.status = StatusPedido.CANCELADO;}
+
+    public boolean isFinalizado() {return status == StatusPedido.FINALIZADO;}
+
+    public boolean isCancelado() {return status == StatusPedido.CANCELADO;}
+
+    public boolean isPendente() {return status == StatusPedido.PENDENTE;}
+
     @Override
     public String toString() {
 
