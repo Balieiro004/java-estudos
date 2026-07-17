@@ -1,6 +1,7 @@
 package ui;
 
 import entities.Livro;
+import entities.Usuario;
 import enums.CategoriaLivro;
 import system.SystemaBiblioteca;
 
@@ -51,9 +52,11 @@ public class Menu {
                     break;
                 }
                 case 4: {
+                    cadastrarUsuario();
                     break;
                 }
                 case 5: {
+                    listarUsuarios();
                     break;
                 }
                 case 6: {
@@ -167,5 +170,40 @@ public class Menu {
 
         Livro livro = sistemaBiblioteca.getLivroService().buscarLivroPorId(id);
         System.out.println(livro != null ? livro : "Livro não encontrado!");
+    }
+
+    private void cadastrarUsuario(){
+        System.out.println("=======Cadastrar Usuario=======");
+        System.out.print("Nome: ");
+        String nome = sc.nextLine();
+
+        System.out.print("Cpf: ");
+        String cpf = sc.nextLine();
+
+        System.out.print("Telefone: ");
+        String telefone = sc.nextLine();
+
+        System.out.print("Email: ");
+        String email = sc.nextLine();
+
+       try{
+           Usuario usuario = sistemaBiblioteca.getUsuarioService().cadastrarUsuario(nome, cpf, telefone, email);
+           System.out.println("Usuario cadastrado com sucesso!");
+           System.out.println(usuario);
+       }catch (IllegalArgumentException e){
+           System.out.println("Erro: " + e.getMessage());
+       }
+    }
+
+    private void listarUsuarios(){
+       List<Usuario> usuarios = sistemaBiblioteca.getUsuarioService().listarUsuarios();
+
+       if(usuarios.isEmpty()){
+           System.out.println("Lista vazia!");
+       }else {
+           for(Usuario usuario : usuarios){
+               System.out.println(usuario);
+           }
+       }
     }
 }

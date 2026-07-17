@@ -26,7 +26,7 @@ public class AutorService {
         autores.add(autor);
     }
 
-    public Autor buscarAutorPorId(int idAutor){
+    protected Autor buscarAutorPorId(int idAutor){
         for(Autor autor : autores){
             return autor;
         }
