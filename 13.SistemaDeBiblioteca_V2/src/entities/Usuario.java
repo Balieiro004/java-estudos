@@ -1,5 +1,10 @@
 package entities;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Usuario {
 
     private static int contador = 0;
@@ -8,6 +13,7 @@ public class Usuario {
     private String cpf;
     private String telefone;
     private String email;
+    private List<Emprestimo> emprestimos = new ArrayList<>();
 
     public Usuario(String nome, String cpf, String telefone, String email) {
         contador++;
@@ -53,6 +59,27 @@ public class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public List<Emprestimo> getEmprestimos() {return Collections.unmodifiableList(emprestimos); }
+
+    public void adicionarEmprestimo(Emprestimo emprestimo){
+        emprestimos.add(emprestimo);
+    }
+
+    public boolean possuiEmprestimoAtrasado() {
+        for (Emprestimo emprestimo : emprestimos) {
+            if (emprestimo.getDataDevolucao() == null && emprestimo.getDataPrevistaDevolucao().isBefore(LocalDate.now())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removerEmprestimo(Emprestimo emprestimo) {
+        emprestimos.remove(emprestimo);
+    }
+
+    // TODO: Implementar controle de multas pendentes.
 
     @Override
     public String toString() {

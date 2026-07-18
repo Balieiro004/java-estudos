@@ -65,6 +65,15 @@ public class UsuarioService {
         return null;
     }
 
+    protected Usuario buscarUsuarioPorId(int id){
+        for(Usuario usuario : usuarios){
+            if(usuario.getId() == id){
+                return usuario;
+            }
+        }
+        return null;
+    }
+
     private void carregarUsuariosMock() {
         cadastrarUsuario(
                 "João Silva",

@@ -1,10 +1,13 @@
 package ui;
 
+import entities.Emprestimo;
 import entities.Livro;
 import entities.Usuario;
 import enums.CategoriaLivro;
 import system.SystemaBiblioteca;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,6 +15,7 @@ public class Menu {
 
     SystemaBiblioteca sistemaBiblioteca;
     Scanner sc;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public Menu(SystemaBiblioteca sistemaBiblioteca, Scanner sc) {
         this.sistemaBiblioteca = sistemaBiblioteca;
@@ -60,9 +64,11 @@ public class Menu {
                     break;
                 }
                 case 6: {
+                    criarEmprestimo();
                     break;
                 }
                 case 7: {
+                    devolverLivro();
                     break;
                 }
                 case 8: {
@@ -205,5 +211,45 @@ public class Menu {
                System.out.println(usuario);
            }
        }
+    }
+
+    private void criarEmprestimo(){
+        System.out.println("=======Criar Emprestimo=======");
+        System.out.print("Id usuario: ");
+        int idUsuario = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Id livro: ");
+        int idLivro = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Data de emprestimo: ");
+        LocalDate dataEmprestimo = LocalDate.parse(sc.nextLine(), formatter);
+
+        System.out.print("Data prevista devolucao: ");
+        LocalDate dataPrevista = LocalDate.parse(sc.nextLine(), formatter);
+
+        try{
+            Emprestimo emprestimo = sistemaBiblioteca.getEmprestimoService().criarEmprestimo(idUsuario, idLivro, dataEmprestimo, dataPrevista);
+            System.out.println("Emprestimo Criado com sucesso!");
+            System.out.println(emprestimo);
+        }catch (IllegalArgumentException e){
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    private void devolverLivro(){
+        System.out.println("=======Devolver Livro=======");
+        System.out.print("Id do empréstimo: ");
+        int id = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Data da devolução (dd/MM/yyyy): ");
+        LocalDate dataDevolucao = LocalDate.parse(sc.nextLine(), formatter);
+
+        try{
+            Emprestimo emprestimo = sistemaBiblioteca.getEmprestimoService().devolverLivro(id, dataDevolucao);
+            System.out.println("Livro devolvido com sucesso!");
+            System.out.println(emprestimo);
+        }catch (IllegalArgumentException e){
+            System.out.println("Erro: " + e.getMessage());
+        }
     }
 }

@@ -78,6 +78,21 @@ public class Livro {
         return quantidadeDisponivel;
     }
 
+    public boolean isDisponivel(){ return quantidadeDisponivel > 0;}
+
+    public void emprestar() {
+        if (quantidadeDisponivel <= 0) {
+            throw new IllegalArgumentException("Livro indisponível.");
+        }
+        quantidadeDisponivel--;
+    }
+
+    public void devolver(){
+        if (quantidadeDisponivel < quantidadeExemplares) {
+            quantidadeDisponivel++;
+        }
+    }
+
     @Override
     public String toString() {
         return "========Livro========" +
