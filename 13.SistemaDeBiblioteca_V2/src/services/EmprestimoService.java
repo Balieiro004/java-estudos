@@ -111,6 +111,21 @@ public class EmprestimoService {
         return null;
     }
 
+    public Emprestimo renovarEmprestimo(int idEmprestimo, LocalDate novaDataPrevistaDevolucao){
+        Emprestimo  emprestimo = buscarEmprestimoPorId(idEmprestimo);
+
+        if(emprestimo == null){
+            throw new IllegalArgumentException("Emprestimo não encontrado");
+        }
+
+        if(emprestimo.getDataDevolucao() != null) {
+            throw new IllegalArgumentException("Este empréstimo ja foi encerrado.");
+        }
+
+        emprestimo.renovar(novaDataPrevistaDevolucao);
+        return emprestimo;
+    }
+
     public void carregarEmprestimosMock() {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -118,14 +133,14 @@ public class EmprestimoService {
         criarEmprestimo(
                 1,
                 1,
-                LocalDate.parse("18/07/2026", formatter),
+                LocalDate.parse("20/07/2026", formatter),
                 LocalDate.parse("25/07/2026", formatter)
         );
 
         criarEmprestimo(
                 2,
                 2,
-                LocalDate.parse("19/07/2026", formatter),
+                LocalDate.parse("20/07/2026", formatter),
                 LocalDate.parse("26/07/2026", formatter)
         );
 

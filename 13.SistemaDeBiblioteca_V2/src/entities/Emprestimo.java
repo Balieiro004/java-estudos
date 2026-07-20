@@ -56,10 +56,6 @@ public class Emprestimo {
         return dataPrevistaDevolucao;
     }
 
-    public void setDataPrevistaDevolucao(LocalDate dataPrevistaDevolucao) {
-        this.dataPrevistaDevolucao = dataPrevistaDevolucao;
-    }
-
     public LocalDate getDataDevolucao() {
         return dataDevolucao;
     }
@@ -71,6 +67,17 @@ public class Emprestimo {
         }
 
         this.dataDevolucao = dataDevolucao;
+    }
+
+    public void renovar(LocalDate novaDataPrevista) {
+
+        if (!novaDataPrevista.isAfter(dataPrevistaDevolucao)) {
+            throw new IllegalArgumentException(
+                    "A nova data deve ser posterior à atual."
+            );
+        }
+
+        this.dataPrevistaDevolucao = novaDataPrevista;
     }
 
     public double getMulta() {

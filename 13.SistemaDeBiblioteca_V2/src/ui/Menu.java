@@ -72,6 +72,7 @@ public class Menu {
                     break;
                 }
                 case 8: {
+                    renovarEmprestimo();
                     break;
                 }
                 case 9: {
@@ -252,4 +253,23 @@ public class Menu {
             System.out.println("Erro: " + e.getMessage());
         }
     }
+
+    private void renovarEmprestimo(){
+        System.out.println("=======Renovar Emprestimo=======");
+        System.out.print("Id do emprestimo: ");
+        int idEmprestimo = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Nova data para devolução (dd/MM/yyyy): ");
+        LocalDate dataEmprestimo = LocalDate.parse(sc.nextLine(), formatter);
+
+        try{
+            Emprestimo emprestimo = sistemaBiblioteca.getEmprestimoService().renovarEmprestimo(idEmprestimo, dataEmprestimo);
+            System.out.println("Emprestimo renovado com sucesso!");
+            System.out.println(emprestimo);
+        }catch (IllegalArgumentException e){
+            System.out.println("Erro: " + e.getMessage());
+        }
+
+    }
+
 }
