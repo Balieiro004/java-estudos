@@ -133,43 +133,43 @@ public class EmprestimoService {
         criarEmprestimo(
                 1,
                 1,
-                LocalDate.parse("20/07/2026", formatter),
-                LocalDate.parse("25/07/2026", formatter)
+                LocalDate.parse("25/08/2026", formatter),
+                LocalDate.parse("30/08/2026", formatter)
         );
 
         criarEmprestimo(
                 2,
                 2,
-                LocalDate.parse("20/07/2026", formatter),
-                LocalDate.parse("26/07/2026", formatter)
+                LocalDate.parse("30/08/2026", formatter),
+                LocalDate.parse("26/09/2026", formatter)
         );
 
         criarEmprestimo(
                 3,
                 3,
-                LocalDate.parse("20/07/2026", formatter),
-                LocalDate.parse("27/07/2026", formatter)
+                LocalDate.parse("20/08/2026", formatter),
+                LocalDate.parse("27/08/2026", formatter)
         );
 
         criarEmprestimo(
                 4,
                 4,
-                LocalDate.parse("21/07/2026", formatter),
-                LocalDate.parse("28/07/2026", formatter)
+                LocalDate.parse("21/08/2026", formatter),
+                LocalDate.parse("28/08/2026", formatter)
         );
 
         criarEmprestimo(
                 5,
                 5,
-                LocalDate.parse("22/07/2026", formatter),
-                LocalDate.parse("29/07/2026", formatter)
+                LocalDate.parse("22/08/2026", formatter),
+                LocalDate.parse("29/08/2026", formatter)
         );
 
         criarEmprestimo(
                 6,
                 6,
-                LocalDate.parse("23/07/2026", formatter),
-                LocalDate.parse("30/07/2026", formatter)
+                LocalDate.parse("23/08/2026", formatter),
+                LocalDate.parse("30/08/2026", formatter)
         );
     }
 

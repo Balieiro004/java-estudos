@@ -1,5 +1,6 @@
 package services;
 
+import entities.Emprestimo;
 import entities.Usuario;
 
 import java.util.ArrayList;
@@ -72,6 +73,17 @@ public class UsuarioService {
             }
         }
         return null;
+    }
+
+    public List<Emprestimo> consultarEmprestimos(int idUsuario){
+
+        Usuario usuario = buscarUsuarioPorId(idUsuario);
+
+        if(usuario == null){
+            throw new IllegalArgumentException("Usuário não encontrado.");
+        }
+
+        return usuario.getEmprestimos();
     }
 
     private void carregarUsuariosMock() {

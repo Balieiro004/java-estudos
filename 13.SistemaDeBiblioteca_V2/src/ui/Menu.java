@@ -76,9 +76,11 @@ public class Menu {
                     break;
                 }
                 case 9: {
+                    consultarEmprestimos();
                     break;
                 }
                 case 10: {
+                    //TODO: implementar sistema de reserva.
                     break;
                 }
                 case 0: {
@@ -213,6 +215,23 @@ public class Menu {
            }
        }
     }
+
+    private void consultarEmprestimos(){
+        System.out.println("=======Consultar Emprestimos=======");
+        System.out.print("Id do usuario: ");
+        int idUsuario = Integer.parseInt(sc.nextLine());
+
+        List<Emprestimo> historico = sistemaBiblioteca.getUsuarioService().consultarEmprestimos(idUsuario);
+
+        if(historico.isEmpty()){
+            System.out.println("Lista vazia!");
+        }else  {
+            for(Emprestimo emprestimo : historico){
+                System.out.println(emprestimo);
+            }
+        }
+    }
+
 
     private void criarEmprestimo(){
         System.out.println("=======Criar Emprestimo=======");
