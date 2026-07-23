@@ -10,7 +10,9 @@ public class ClienteService {
 
     private List<Cliente> clientes = new ArrayList<>();
 
-    public List<Cliente> getClientes() {
+    public ClienteService() {carregarClientesMock();}
+
+    public List<Cliente> listarClientes() {
         return Collections.unmodifiableList(clientes);
     }
 
@@ -64,5 +66,68 @@ public class ClienteService {
             }
         }
         return null;
+    }
+
+    public Cliente buscarClientePorId(int id){
+        for (Cliente cliente : clientes) {
+            if (cliente.getId() == id){
+                return cliente;
+            }
+        }
+        return null;
+    }
+
+    public void excluirClientePorId(int id){
+        Cliente cliente = buscarClientePorId(id);
+
+        if(cliente == null){
+            throw new IllegalArgumentException("Cliente não encontrado.");
+        }
+        clientes.remove(cliente);
+    }
+
+
+    private void carregarClientesMock() {
+        cadastrarCliente(
+                "João Silva",
+                "12345678901",
+                "11999990001",
+                "joao.silva@email.com"
+        );
+
+        cadastrarCliente(
+                "Maria Oliveira",
+                "23456789012",
+                "11999990002",
+                "maria.oliveira@email.com"
+        );
+
+        cadastrarCliente(
+                "Pedro Santos",
+                "34567890123",
+                "11999990003",
+                "pedro.santos@email.com"
+        );
+
+        cadastrarCliente(
+                "Ana Costa",
+                "45678901234",
+                "11999990004",
+                "ana.costa@email.com"
+        );
+
+        cadastrarCliente(
+                "Carlos Pereira",
+                "56789012345",
+                "11999990005",
+                "carlos.pereira@email.com"
+        );
+
+        cadastrarCliente(
+                "Fernanda Lima",
+                "67890123456",
+                "11999990006",
+                "fernanda.lima@email.com"
+        );
     }
 }

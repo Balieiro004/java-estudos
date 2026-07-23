@@ -4,6 +4,7 @@ import entities.Cliente;
 import system.SistemaHotel;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -24,6 +25,10 @@ public class Menu {
         while(executando){
             System.out.println("========Menu========");
             System.out.println("1.Cadastrar Cliente");
+            System.out.println("2.Listar Clientes");
+            System.out.println("3.Buscar Cliente Por Id");
+            System.out.println("4.Excluir Cliente Por Id");
+            System.out.println();
             System.out.println("0.Sair");
             System.out.print("Opcão: ");
             int opcao = Integer.parseInt(sc.nextLine());
@@ -34,12 +39,15 @@ public class Menu {
                     break;
                 }
                 case 2:{
+                    listarClientes();
                     break;
                 }
                 case 3:{
+                    buscarClientePorId();
                     break;
                 }
                 case 4:{
+                    excluirClientePorId();
                     break;
                 }
                 case 5:{
@@ -84,6 +92,49 @@ public class Menu {
             Cliente cliente = sistemaHotel.getClienteService().cadastrarCliente(nome, cpf, telefone, email);
             System.out.println("Cliente cadastrado com sucesso!");
             System.out.println(cliente);
+        }catch (IllegalArgumentException e){
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    private void listarClientes(){
+        System.out.println("========Lista de Clientes========");
+
+        List<Cliente> clientes = sistemaHotel.getClienteService().listarClientes();
+
+        if(clientes.isEmpty()){
+            System.out.println("Nenhum cliente encontrado!");
+        }else {
+            for(Cliente cliente : clientes){
+                System.out.println(cliente);
+            }
+        }
+    }
+
+    private void buscarClientePorId(){
+        System.out.println("========Buscar Cliente por Id========");
+
+        System.out.print("Id: ");
+        int id = Integer.parseInt(sc.nextLine());
+
+        Cliente cliente = sistemaHotel.getClienteService().buscarClientePorId(id);
+
+        if(cliente == null){
+            System.out.println("Nenhum cliente encontrado!");
+        }else{
+            System.out.println(cliente);
+        }
+    }
+
+    private void excluirClientePorId(){
+        System.out.println("========Excluir Cliente por Id========");
+
+        System.out.print("Id: ");
+        int id = Integer.parseInt(sc.nextLine());
+
+        try{
+            sistemaHotel.getClienteService().excluirClientePorId(id);
+            System.out.println("Cliente excluido com sucesso!");
         }catch (IllegalArgumentException e){
             System.out.println("Erro: " + e.getMessage());
         }
