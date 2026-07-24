@@ -2,10 +2,13 @@ package ui;
 
 import entities.Cliente;
 import entities.Quarto;
+import entities.Reserva;
 import enums.TipoQuarto;
 import system.SistemaHotel;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -36,6 +39,9 @@ public class Menu {
             System.out.println("8.Buscar Quarto Por Id");
             System.out.println("9.Colocar Quarto Em Manutencao por numero");
             System.out.println("10.Liberar Quarto Por Numero");
+            System.out.println("11.Criar Reserva");
+            System.out.println("12.Listar Reservas");
+            System.out.println("13.Finalizar Reserva");
             System.out.println("0.Sair");
             System.out.print("Opcão: ");
             int opcao = Integer.parseInt(sc.nextLine());
@@ -79,6 +85,18 @@ public class Menu {
                 }
                 case 10:{
                     liberarQuartoPorNumero();
+                    break;
+                }
+                case 11:{
+                    criarReserva();
+                    break;
+                }
+                case 12:{
+                    listarReservas();
+                    break;
+                }
+                case 13:{
+                    finalizarReserva();
                     break;
                 }
                 case 0:{
@@ -268,5 +286,58 @@ public class Menu {
         }
     }
 
+    private void criarReserva(){
+        System.out.println("========Criar Reserva========");
+        System.out.print("Id Cliente: ");
+        int idCliente = Integer.parseInt(sc.nextLine());
 
+        System.out.print("Numero Quarto: ");
+        int numeroQuarto = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Check In: ");
+        LocalDate checkIn = LocalDate.parse(sc.nextLine(), formatter);
+
+        System.out.print("Check Out Previsto: ");
+        LocalDate checkOutPrevisto = LocalDate.parse(sc.nextLine(), formatter);
+
+        System.out.print("Check Out Real: ");
+        LocalDate checkOutReal = LocalDate.parse(sc.nextLine(), formatter);
+
+        try{
+            Reserva reserva = sistemaHotel.getReservaService().criarReserva(idCliente,numeroQuarto,checkIn,checkOutPrevisto,checkOutReal);
+            System.out.println("Reserva Criada com sucesso!");
+            System.out.println(reserva);
+        }catch (IllegalArgumentException e){
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    private void listarReservas(){
+        System.out.println("========Listar Reservas========");
+        List<Reserva> reservas = sistemaHotel.getReservaService().listarReservas();
+
+        if(reservas.isEmpty()){
+            System.out.println("Nenhum Reserva encontrada!");
+        }else {
+            reservas.forEach(System.out::println);
+        }
+    }
+
+    private void finalizarReserva(){
+        System.out.println("========Finalizar Reserva========");
+        System.out.print("Id da Reserva: ");
+        int idReserva = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Data de checkout Real: ");
+        LocalDate dataDeCheckoutReal = LocalDate.parse(sc.nextLine(), formatter);
+
+
+        try{
+            Reserva reserva = sistemaHotel.getReservaService().finalizarReserva(idReserva, dataDeCheckoutReal);
+            System.out.println("Reserva Finalizada com sucesso!");
+            System.out.println("Total: R$ " + reserva.calcularTotal());
+        }catch (IllegalArgumentException e){
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
 }

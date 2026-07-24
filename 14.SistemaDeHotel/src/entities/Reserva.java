@@ -3,6 +3,7 @@ package entities;
 import enums.StatusReserva;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Reserva {
 
@@ -18,6 +19,8 @@ public class Reserva {
     private StatusReserva status;
 
     public Reserva(Cliente cliente, Quarto quarto, LocalDate checkIn, LocalDate checkOutPrevisto, LocalDate checkOutReal) {
+        contador++;
+        this.id = contador;
         this.cliente = cliente;
         this.quarto = quarto;
         this.checkIn = checkIn;
@@ -76,6 +79,11 @@ public class Reserva {
 
     public StatusReserva getStatus() {
         return status;
+    }
+
+    public double calcularTotal(){
+        long dias = ChronoUnit.DAYS.between(checkIn, checkOutReal);
+        return dias * quarto.getValorDiaria();
     }
 
     @Override
