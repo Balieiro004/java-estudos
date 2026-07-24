@@ -59,10 +59,10 @@ public class Quarto {
     @Override
     public String toString() {
         return "========Quarto========" +
-                "Id: " + id +
-                "Numero: " + numero +
-                "Tipo: " + tipo +
-                "ValorDiaria: " + valorDiaria +
-                "Status: " + status;
+                "\nId: " + id +
+                "\nNumero: " + numero +
+                "\nTipo: " + tipo +
+                "\nValorDiaria: " + valorDiaria +
+                "\nStatus: " + status;
     }
 }
