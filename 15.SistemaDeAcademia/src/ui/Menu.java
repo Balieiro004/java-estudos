@@ -28,6 +28,7 @@ public class Menu {
             System.out.println("2. Listar Alunos");
             System.out.println("3. Buscar Aluno por Id");
             System.out.println("4. Excluir Aluno por Id");
+            System.out.println("5. ");
             System.out.print("Opção: ");
             opcao = Integer.parseInt(sc.nextLine());
 
