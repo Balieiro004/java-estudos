@@ -16,8 +16,6 @@ public class Matricula {
 
     private StatusMatricula status;
 
-    public Matricula() {}
-
     public Matricula(Aluno aluno, Plano plano, LocalDate dataInicio, LocalDate dataFim) {
         contador++;
         this.id = contador;
@@ -28,10 +26,47 @@ public class Matricula {
         ativa();
     }
 
-    public void ativa(){this.status = StatusMatricula.ATIVA;}
-    public void suspensa(){this.status = StatusMatricula.SUSPENSA;}
-    public void cancelada(){this.status = StatusMatricula.CANCELADA;}
-    public void encerrada(){this.status = StatusMatricula.ENCERRADA;}
+    public void ativa(){
+        if (status == StatusMatricula.ATIVA) {
+            throw new IllegalStateException("A matrícula já está ativa.");
+        }
+
+        this.status = StatusMatricula.ATIVA;
+    }
+    public void suspensa(){
+        if (status == StatusMatricula.SUSPENSA) {
+            throw new IllegalStateException("A matrícula já está suspensa.");
+        }
+
+        if (status == StatusMatricula.CANCELADA) {
+            throw new IllegalStateException("Não é possível suspender uma matrícula cancelada.");
+        }
+
+        if (status == StatusMatricula.ENCERRADA) {
+            throw new IllegalStateException("Não é possível suspender uma matrícula encerrada.");
+        }
+        this.status = StatusMatricula.SUSPENSA;
+    }
+    public void cancelada(){
+        if (status == StatusMatricula.CANCELADA) {
+            throw new IllegalStateException("A matrícula já está cancelada.");
+        }
+
+        if (status == StatusMatricula.ENCERRADA) {
+            throw new IllegalStateException("Não é possível cancelar uma matrícula encerrada.");
+        }
+        this.status = StatusMatricula.CANCELADA;
+    }
+    public void encerrada(){
+        if (status == StatusMatricula.ENCERRADA) {
+            throw new IllegalStateException("A matrícula já está encerrada.");
+        }
+
+        if (status == StatusMatricula.CANCELADA) {
+            throw new IllegalStateException("Não é possível encerrar uma matrícula cancelada.");
+        }
+        this.status = StatusMatricula.ENCERRADA;
+    }
 
     public int getId() {
         return id;
@@ -77,9 +112,9 @@ public class Matricula {
     public String toString() {
         return "========Matricula========" +
                 "\nId: " + id +
-                "\nAluno: " + aluno +
-                "Plano: " + plano +
-                "DataInicio: " + dataInicio +
+                "\nAluno: " + aluno.getNome() +
+                "\nPlano: " + plano.getNome() +
+                "\nDataInicio: " + dataInicio +
                 "\nDataFim: " + dataFim +
                 "\nStatus: " + status;
     }

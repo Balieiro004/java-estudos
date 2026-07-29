@@ -12,6 +12,8 @@ public class PlanoService {
 
     public PlanoService() {carregarPlanosMock();}
 
+    public List<Plano> listarPlanos() {return Collections.unmodifiableList(planos);}
+
     public void cadastrarPlano(String nome, int duracaoMeses, double valorMensal){
 
         if (nome == null || nome.isBlank()) {
@@ -28,6 +30,15 @@ public class PlanoService {
 
         Plano plano = new Plano(nome, duracaoMeses, valorMensal);
         planos.add(plano);
+    }
+
+    public Plano buscarPlanoPorId(int id){
+        for (Plano plano : planos) {
+            if (plano.getId() == id) {
+                return plano;
+            }
+        }
+        return null;
     }
 
     public void carregarPlanosMock() {
