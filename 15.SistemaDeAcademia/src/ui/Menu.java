@@ -2,6 +2,8 @@ package ui;
 
 import entities.Aluno;
 import entities.Matricula;
+import entities.Pagamento;
+import enums.FormaPagamento;
 import system.SistemaAcademia;
 
 import java.time.LocalDate;
@@ -37,6 +39,9 @@ public class Menu {
             System.out.println("9. Suspender Matricula Por Id");
             System.out.println("10. Reativar Matricula Por Id");
             System.out.println("11. Encerrar Matricula Por Id");
+            System.out.println("12. Registrar Pagamento");
+            System.out.println("13. Listar Pagamentos");
+            System.out.println("14. Buscar Pagamento por Id");
             System.out.println("0. Sair");
             System.out.print("Opção: ");
             opcao = Integer.parseInt(sc.nextLine());
@@ -85,6 +90,17 @@ public class Menu {
                 case 11:{
                     encerrarMatriculaPorId();
                     break;
+                }
+                case 12:{
+                    registrarPagamento();
+                    break;
+                }
+                case 13:{
+                    listPagamentos();
+                    break;
+                }
+                case 14:{
+                    buscarPagamentoPorId();
                 }
                 case 0:{
                     System.out.println("Saindo.....");
@@ -182,7 +198,7 @@ public class Menu {
         }
     }
 
-    public void listarMatriculas(){
+    private void listarMatriculas(){
         List<Matricula> matriculas = sistemaAcademia.getMatriculaService().getMatriculas();
 
         if(matriculas.isEmpty()){
@@ -192,7 +208,7 @@ public class Menu {
         }
     }
 
-    public void buscarMatriculaPorId(){
+    private void buscarMatriculaPorId(){
         System.out.println("========Buscar Matricula por Id========");
 
         System.out.print("Id matricula: ");
@@ -206,7 +222,7 @@ public class Menu {
         }
     }
 
-    public void cancelarMatriculaPorId(){
+    private void cancelarMatriculaPorId(){
         System.out.println("========Cancelar Matricula por Id========");
 
         System.out.print("Id matricula: ");
@@ -219,7 +235,7 @@ public class Menu {
         }
     }
 
-    public void suspenderMatriculaPorId(){
+    private void suspenderMatriculaPorId(){
         System.out.println("========Suspender Matricula========");
         System.out.print("Id matricula: ");
         int idMatricula = Integer.parseInt(sc.nextLine());
@@ -232,7 +248,7 @@ public class Menu {
         }
     }
 
-    public void reativarMatriculaPorId(){
+    private void reativarMatriculaPorId(){
         System.out.println("========Reativar Matricula========");
         System.out.print("Id matricula: ");
         int idMatricula = Integer.parseInt(sc.nextLine());
@@ -245,7 +261,7 @@ public class Menu {
         }
     }
 
-    public void encerrarMatriculaPorId(){
+    private void encerrarMatriculaPorId(){
         System.out.println("========Encerrar Matricula========");
         System.out.print("Id matricula: ");
         int idMatricula = Integer.parseInt(sc.nextLine());
@@ -255,6 +271,74 @@ public class Menu {
             System.out.println("Matricula encerrada com sucesso!");
         }catch(Exception e){
             System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    private void registrarPagamento(){
+        System.out.println("========Registrar Pagamento========");
+
+        System.out.print("Id matricula: ");
+        int idMatricula = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Data do Pagamento: ");
+        LocalDate dataPagamento = LocalDate.parse(sc.nextLine(), fomatter);
+        FormaPagamento formaPagamento = null;
+
+        System.out.println("Escola a Forma de Pagamento: ");
+        System.out.println("1. Pix");
+        System.out.println("2. Cartão");
+        System.out.println("3. Dinheiro");
+        int opcao = Integer.parseInt(sc.nextLine());
+
+        switch (opcao) {
+            case 1:{
+                formaPagamento = FormaPagamento.PIX;
+                break;
+            }
+            case 2:{
+                formaPagamento = FormaPagamento.CARTAO;
+                break;
+            }
+            case 3:{
+                formaPagamento = FormaPagamento.DINHEIRO;
+                break;
+            }
+        }
+
+        System.out.print("Valor pago R$: ");
+        double valorPagamento = Double.parseDouble(sc.nextLine());
+
+        try{
+            Pagamento pagamento = sistemaAcademia.getPagamentoService().registrarPagamento(idMatricula, dataPagamento, valorPagamento, formaPagamento);
+            System.out.println("Pagamento registrado com sucesso!");
+            System.out.println(pagamento);
+        }catch (Exception e){
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    private void listPagamentos(){
+        System.out.println("========Listar Pagamentos========");
+        List<Pagamento> listaPagamentos = sistemaAcademia.getPagamentoService().listPagamentos();
+
+        if(listaPagamentos.isEmpty()){
+            System.out.println("Nenhum pagamento foi encontrado!");
+        }else {
+            listaPagamentos.forEach(System.out::println);
+        }
+    }
+
+    private void buscarPagamentoPorId(){
+        System.out.println("========Buscar Pagamento========");
+        System.out.print("Id matricula: ");
+        int idMatricula = Integer.parseInt(sc.nextLine());
+
+        Pagamento pagamento = sistemaAcademia.getPagamentoService().buscarPagamentoPorId(idMatricula);
+
+        if(pagamento == null){
+            System.out.println("Pagamento não encontrado!");
+        }else {
+            System.out.println(pagamento);
         }
     }
 }

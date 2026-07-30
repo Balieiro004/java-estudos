@@ -14,17 +14,13 @@ public class Pagamento {
     private FormaPagamento formaPagamento;
 
     public Pagamento(Matricula matricula, LocalDate dataPagamento, double valorPagamento, FormaPagamento formaPagamento) {
+        contador++;
+        this.id=contador;
         this.matricula = matricula;
         this.dataPagamento = dataPagamento;
         this.valorPagamento = valorPagamento;
         this.formaPagamento = formaPagamento;
-        //TODO Decidir como vai ficar a forma de pagamento.
     }
-
-    public void pix(){this.formaPagamento = FormaPagamento.PIX;}
-    public void cartao(){this.formaPagamento = FormaPagamento.CARTAO;}
-    public void dinheiro(){this.formaPagamento = FormaPagamento.DINHEIRO;}
-
     public int getId() {
         return id;
     }
@@ -57,7 +53,7 @@ public class Pagamento {
     public String toString() {
         return "========Pagamento========" +
                 "\nId=" + id +
-                "\nMatricula: " + matricula +
+                "\nMatricula: " + matricula.getAluno().getNome() +
                 "\nData Pagamento: " + dataPagamento +
                 "\nValor Pagamento: " + valorPagamento +
                 "\nForma Pagamento: " + formaPagamento;
