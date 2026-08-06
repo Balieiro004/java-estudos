@@ -6,5 +6,7 @@ public enum Especialidades {
     PEDIATRIA,
     ORTOPEDIA,
     DERMATOLOGIA,
-    PSIQUIATRIA
+    PSIQUIATRIA,
+    NEUROLOGIA,
+    GINECOLOGIA
 }

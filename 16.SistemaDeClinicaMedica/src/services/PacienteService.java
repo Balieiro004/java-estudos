@@ -1,6 +1,7 @@
 package services;
 
 import entities.Paciente;
+import utils.ValidacaoUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,8 +19,8 @@ public class PacienteService {
 
     public Paciente cadastrarPaciente(String nome, String cpf, String convenio) {
 
-        validarNome(nome);
-        validarCPF(cpf);
+        ValidacaoUtil.validarNome(nome);
+        ValidacaoUtil.validarCPF(cpf);
         validarConvenio(convenio);
         validarSePacienteExiste(cpf);
 
@@ -37,29 +38,13 @@ public class PacienteService {
         return null;
     }
 
-    public void ecluirPaciente(int id) {
+    public void excluirPaciente(int id) {
         Paciente paciente = buscarPacientePorId(id);
 
         if (paciente == null) {
             throw new IllegalArgumentException("Paciente não encontrado");
         }
         pacientes.remove(paciente);
-    }
-
-    private void validarNome(String nome){
-        if(nome == null || nome.isEmpty()){
-            throw new IllegalArgumentException("Nome precisa ser preenchido.");
-        }
-    }
-
-    private void validarCPF(String cpf){
-        if(cpf == null || cpf.isEmpty()){
-            throw new IllegalArgumentException("CPF precisa ser preenchido.");
-        }
-
-        if(cpf.length() != 11){
-            throw new IllegalArgumentException("CPF precisa contar somente 11 caracteres.");
-        }
     }
 
     private void validarConvenio(String convenio){

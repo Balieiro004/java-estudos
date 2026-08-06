@@ -32,6 +32,8 @@ public class Medico extends Pessoa{
     public void ortopedia(){this.especialidade = Especialidades.ORTOPEDIA;}
     public void dermatologia(){this.especialidade = Especialidades.DERMATOLOGIA;}
     public void psiquiatria(){this.especialidade = Especialidades.PSIQUIATRIA;}
+    public void neurologia(){this.especialidade = Especialidades.NEUROLOGIA;}
+    public void ginecologia(){this.especialidade = Especialidades.GINECOLOGIA;}
 
     @Override
     public String toString() {
@@ -39,7 +41,7 @@ public class Medico extends Pessoa{
                 "\nId: " + getId() +
                 "\nNome: " + getNome() +
                 "\nCpf: " + getCpf() +
-                "crm='" + crm +
-                ", especialidade=" + especialidade;
+                "\ncrm: " + crm +
+                "\nespecialidade: " + especialidade;
     }
 }
