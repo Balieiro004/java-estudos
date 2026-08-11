@@ -1,10 +1,13 @@
 package ui;
 
+import entities.Consulta;
 import entities.Medico;
 import entities.Paciente;
 import enums.Especialidades;
 import system.SistemaClinicaMedica;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
@@ -14,6 +17,7 @@ public class Menu {
     private Scanner sc;
     private SistemaClinicaMedica sistemaClinicaMedica;
     DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    DateTimeFormatter formatterHora = DateTimeFormatter.ofPattern("HH:mm");
 
     public Menu(SistemaClinicaMedica sistemaClinicaMedica, Scanner sc) {
         this.sc = sc;
@@ -36,6 +40,11 @@ public class Menu {
             System.out.println("6.Listar Medicos");
             System.out.println("7.Buscar Medico Por Id");
             System.out.println("8.Excluir Medico Por Id");
+            System.out.println("9.Criar Consulta");
+            System.out.println("10.listar Consultas");
+            System.out.println("11.Reagendar Consulta");
+            System.out.println("12.Consultar Agenda Medico");
+            System.out.println("13.Consultar Agenda Paciente");
             System.out.println("0.Sair");
 
             System.out.print("Opção: ");
@@ -72,6 +81,26 @@ public class Menu {
                 }
                 case 8:{
                     excluirMedicoPorId();
+                    break;
+                }
+                case 9:{
+                    criarConsulta();
+                    break;
+                }
+                case 10:{
+                    listarConsultas();
+                    break;
+                }
+                case 11:{
+                    reagendarConsulta();
+                    break;
+                }
+                case 12:{
+                    consultarAgendaMedico();
+                    break;
+                }
+                case 13:{
+                    consultarAgendaPaciente();
                     break;
                 }
                 case 0:{
@@ -141,11 +170,6 @@ public class Menu {
         }catch(Exception e){
             System.out.println("Erro: " +  e.getMessage());
         }
-    }
-
-    private int lerIdPaciente() {
-        System.out.print("Id: ");
-        return Integer.parseInt(sc.nextLine());
     }
 
     private void cadastrarMedico(){
@@ -253,8 +277,109 @@ public class Menu {
         }
     }
 
+    private void criarConsulta(){
+        System.out.println("========Criar Consulta========");
+
+        System.out.print("Id Paciente: ");
+        int idPaciente = Integer.parseInt(sc.nextLine());
+
+        int idMedico = lerIdMedico();
+
+        LocalDate dataConsulta = lerDataConsulta();
+        LocalTime horaConsulta = lerHoraConsulta();
+
+        try{
+            Consulta consulta = sistemaClinicaMedica.getConsultaService().criarConsulta(idPaciente, idMedico, dataConsulta, horaConsulta);
+            System.out.println("Consulta criado com sucesso!");
+            System.out.println(consulta);
+        }catch(Exception e){
+            System.out.println("Erro: " +  e.getMessage());
+        }
+    }
+
+    private void listarConsultas(){
+        System.out.println("========Listar Consultas========");
+
+        List<Consulta> consultas = sistemaClinicaMedica.getConsultaService().listarConsultas();
+
+        if(consultas.isEmpty()){
+            System.out.println("Nenhum consulta encontrada!");
+        }else {
+            consultas.forEach(System.out::println);
+        }
+    }
+
+    private void reagendarConsulta(){
+        System.out.println("========Reagendar Consulta========");
+
+        System.out.print("Id Consulta: ");
+        int idConsulta = Integer.parseInt(sc.nextLine());
+
+        LocalDate dataConsulta = lerDataConsulta();
+        LocalTime horaConsulta = lerHoraConsulta();
+
+        try{
+            Consulta consulta = sistemaClinicaMedica.getConsultaService().reagendarConsulta(idConsulta, dataConsulta, horaConsulta);
+        }catch(Exception e){
+            System.out.println("Erro: " +  e.getMessage());
+        }
+
+    }
+
+    private void consultarAgendaMedico(){
+
+        System.out.println("========Agenda do Médico========");
+
+        int idMedico = lerIdMedico();
+        LocalDate dataConsulta = lerDataConsulta();
+
+        try {
+            List<Consulta> consultas = sistemaClinicaMedica.getConsultaService().consultarAgendaMedico(idMedico, dataConsulta);
+
+            if (consultas.isEmpty()) {
+                System.out.println("Nenhum consulta encontrada!");
+            } else {
+                consultas.forEach(System.out::println);
+            }
+        }catch(Exception e){
+            System.out.println("Erro: " +  e.getMessage());
+        }
+    }
+
+    private void consultarAgendaPaciente(){
+        System.out.println("========Agenda do Paciente========");
+        int idPaciente = lerIdPaciente();
+
+        try{
+            List<Consulta> consultas = sistemaClinicaMedica.getConsultaService().consultarAgendaPaciente(idPaciente);
+
+            if (consultas.isEmpty()) {
+                System.out.println("Nenhum consulta encontrada!");
+            }else  {
+                consultas.forEach(System.out::println);
+            }
+        }catch(Exception e){
+            System.out.println("Erro: " +  e.getMessage());
+        }
+    }
+
     private int lerIdMedico() {
         System.out.print("Id: ");
         return Integer.parseInt(sc.nextLine());
+    }
+
+    private int lerIdPaciente() {
+        System.out.print("Id: ");
+        return Integer.parseInt(sc.nextLine());
+    }
+
+    private LocalDate lerDataConsulta() {
+        System.out.print("Data Consulta: ");
+        return LocalDate.parse(sc.nextLine(), fomatter);
+    }
+
+    private LocalTime lerHoraConsulta() {
+        System.out.print("Hora Consulta: ");
+        return LocalTime.parse(sc.nextLine(), formatterHora);
     }
 }
