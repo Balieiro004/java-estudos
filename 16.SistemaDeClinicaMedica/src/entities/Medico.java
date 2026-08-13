@@ -8,11 +8,17 @@ public class Medico extends Pessoa{
     private String crm;
     private Especialidades especialidade;
 
-    public Medico(String nome, String cpf, String crm, Especialidades especialidade) {
+    private double valorConsulta;
+
+    public Medico(String nome, String cpf, String crm, Especialidades especialidade, double valorConsulta) {
         super(nome, cpf);
+
+        if (valorConsulta < 0) {throw new IllegalArgumentException("O valor da consulta não pode ser negativo.");}
         this.crm = crm;
         this.especialidade = especialidade;
+        this.valorConsulta = valorConsulta;
     }
+
 
     public String getCrm() {
         return crm;
@@ -26,14 +32,9 @@ public class Medico extends Pessoa{
         return especialidade;
     }
 
-    public void clinicoGeral(){this.especialidade = Especialidades.CLINICO_GERAL;}
-    public void cardiologia(){this.especialidade = Especialidades.CARDIOLOGIA;}
-    public void pediatria(){this.especialidade = Especialidades.PEDIATRIA;}
-    public void ortopedia(){this.especialidade = Especialidades.ORTOPEDIA;}
-    public void dermatologia(){this.especialidade = Especialidades.DERMATOLOGIA;}
-    public void psiquiatria(){this.especialidade = Especialidades.PSIQUIATRIA;}
-    public void neurologia(){this.especialidade = Especialidades.NEUROLOGIA;}
-    public void ginecologia(){this.especialidade = Especialidades.GINECOLOGIA;}
+    public void setEspecialidade(Especialidades especialidade) {this.especialidade = especialidade;}
+
+    public double getValorConsulta() {return valorConsulta;}
 
     @Override
     public String toString() {

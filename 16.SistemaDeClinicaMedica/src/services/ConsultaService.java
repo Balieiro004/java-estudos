@@ -3,6 +3,8 @@ package services;
 import entities.Consulta;
 import entities.Medico;
 import entities.Paciente;
+import entities.Receita;
+import enums.StatusDaConsulta;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,6 +18,7 @@ public class ConsultaService {
     private PacienteService pacienteService;
     private MedicoService medicoService;
     private List<Consulta> consultas = new ArrayList<>();
+    private List<Receita> receitas = new ArrayList<>();
 
 
     public ConsultaService(PacienteService pacienteService, MedicoService medicoService) {
@@ -36,17 +39,14 @@ public class ConsultaService {
         validarHorarioMedico(idMedico, dataConsulta, horaConsulta, -1);
         validarHorarioPaciente(idPaciente, dataConsulta, horaConsulta, -1);
 
-        Consulta consulta = new Consulta(paciente, medico, dataConsulta, horaConsulta);
+        double valor = medico.getValorConsulta();
+        Consulta consulta = new Consulta(paciente, medico, dataConsulta, horaConsulta, valor);
         consultas.add(consulta);
         return consulta;
     }
 
     public Consulta reagendarConsulta(int idConsulta,LocalDate novaData, LocalTime novaHora){
-        Consulta consulta = buscarConsultaPorId(idConsulta);
-
-        if(consulta == null){
-            throw new IllegalArgumentException("Consulta não encontrada");
-        }
+        Consulta consulta = validarSeConsultaExiste(idConsulta);
 
         validarDataEHoraDaConsulta(novaData, novaHora);
 
@@ -74,7 +74,7 @@ public class ConsultaService {
         }
 
         /*Organiza as consulta por horário*/
-        agenda.sort(Comparator.comparing(Consulta::getDataConsulta));
+        agenda.sort(Comparator.comparing(Consulta::getHoraConsulta));
 
         return agenda;
     }
@@ -100,6 +100,48 @@ public class ConsultaService {
             }
         }
         return null;
+    }
+
+    public Consulta confirmarConsulta(int idConsulta){
+        Consulta consulta = validarSeConsultaExiste(idConsulta);
+
+        consulta.confirmada();
+
+        return consulta;
+    }
+
+    public Consulta cancelarConsulta(int idConsulta){
+        Consulta consulta = validarSeConsultaExiste(idConsulta);
+        consulta.cancelada();
+        return consulta;
+    }
+
+    public Consulta realizarConsulta(int idConsulta){
+        Consulta consulta = validarSeConsultaExiste(idConsulta);
+        consulta.realizada();
+        double valor = consulta.getValor();
+        consulta.getPaciente().adicionarValorDevido(valor);
+
+        return consulta;
+    }
+
+    public Receita emitirReceita(int idConsulta, String descricao) {
+
+        Consulta consulta = validarSeConsultaExiste(idConsulta);
+
+        if (consulta.getStatusDaConsulta() != StatusDaConsulta.REALIZADA) {
+            throw new IllegalStateException("Somente consultas realizadas podem emitir receita.");
+        }
+
+        if (descricao == null || descricao.isBlank()) {
+            throw new IllegalArgumentException("A receita precisa ser preenchida.");
+        }
+
+        Receita receita = new Receita(consulta.getPaciente(), consulta.getMedico(), descricao);
+
+        receitas.add(receita);
+
+        return receita;
     }
 
     private Paciente validarSePacienteExiste(int idPaciente) {
@@ -158,6 +200,17 @@ public class ConsultaService {
                 throw new IllegalArgumentException("O Paciente ja possui consulta nesse dia e horário!");
             }
         }
+    }
+
+    private Consulta validarSeConsultaExiste(int idConsulta) {
+
+        Consulta consulta = buscarConsultaPorId(idConsulta);
+
+        if (consulta == null) {
+            throw new IllegalArgumentException("Consulta não encontrada");
+        }
+
+        return consulta;
     }
 
     private void carregarConsultasMock() {

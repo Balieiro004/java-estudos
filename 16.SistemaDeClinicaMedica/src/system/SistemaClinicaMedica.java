@@ -6,9 +6,9 @@ import services.PacienteService;
 
 public class SistemaClinicaMedica {
 
-    PacienteService pacienteService;
-    MedicoService medicoService;
-    ConsultaService consultaService;
+    private final PacienteService pacienteService;
+    private final MedicoService medicoService;
+    private final ConsultaService consultaService;
 
     public SistemaClinicaMedica() {
 

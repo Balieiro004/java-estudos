@@ -3,6 +3,7 @@ package ui;
 import entities.Consulta;
 import entities.Medico;
 import entities.Paciente;
+import entities.Receita;
 import enums.Especialidades;
 import system.SistemaClinicaMedica;
 
@@ -45,6 +46,10 @@ public class Menu {
             System.out.println("11.Reagendar Consulta");
             System.out.println("12.Consultar Agenda Medico");
             System.out.println("13.Consultar Agenda Paciente");
+            System.out.println("14.Confirmar Consulta");
+            System.out.println("15.Cancelar Consulta");
+            System.out.println("16.Realizar Consulta");
+            System.out.println("17.Emitir Receita");
             System.out.println("0.Sair");
 
             System.out.print("Opção: ");
@@ -101,6 +106,22 @@ public class Menu {
                 }
                 case 13:{
                     consultarAgendaPaciente();
+                    break;
+                }
+                case 14:{
+                    confirmarConsulta();
+                    break;
+                }
+                case 15:{
+                    cancelarConsulta();
+                    break;
+                }
+                case 16:{
+                    realizarConsulta();
+                    break;
+                }
+                case 17:{
+                    emitirReceita();
                     break;
                 }
                 case 0:{
@@ -235,9 +256,11 @@ public class Menu {
                 System.out.println("Tipo de conta inválida");
                 return;
         }
+        System.out.print("Valor da Consulta: R$ ");
+        double valorConsulta = Double.parseDouble(sc.nextLine());
 
         try{
-            Medico medico = sistemaClinicaMedica.getMedicoService().cadastrarMedico(nome,cpf,crm, especialidade);
+            Medico medico = sistemaClinicaMedica.getMedicoService().cadastrarMedico(nome,cpf,crm, especialidade, valorConsulta);
             System.out.println("Medico cadastrado com sucesso!");
             System.out.println(medico);
         }catch(Exception e){
@@ -312,14 +335,15 @@ public class Menu {
     private void reagendarConsulta(){
         System.out.println("========Reagendar Consulta========");
 
-        System.out.print("Id Consulta: ");
-        int idConsulta = Integer.parseInt(sc.nextLine());
+        int idConsulta = lerIdConsulta();
 
         LocalDate dataConsulta = lerDataConsulta();
         LocalTime horaConsulta = lerHoraConsulta();
 
         try{
             Consulta consulta = sistemaClinicaMedica.getConsultaService().reagendarConsulta(idConsulta, dataConsulta, horaConsulta);
+            System.out.println("Conculta reagendada com sucesso!");
+            System.out.println(consulta);
         }catch(Exception e){
             System.out.println("Erro: " +  e.getMessage());
         }
@@ -363,6 +387,63 @@ public class Menu {
         }
     }
 
+    private void confirmarConsulta(){
+        System.out.println("========Confirmar Consulta========");
+        int idConsulta = lerIdConsulta();
+
+        try{
+            Consulta consulta = sistemaClinicaMedica.getConsultaService().confirmarConsulta(idConsulta);
+            System.out.println("Consulta confirmar com sucesso!");
+            System.out.println(consulta);
+        }catch(Exception e){
+            System.out.println("Erro: " +  e.getMessage());
+        }
+    }
+
+    private void cancelarConsulta(){
+        System.out.println("========Cancelar Consulta========");
+        int idConsulta = lerIdConsulta();
+
+        try{
+            Consulta consulta = sistemaClinicaMedica.getConsultaService().cancelarConsulta(idConsulta);
+            System.out.println("Consulta cancelada com sucesso!");
+            System.out.println(consulta);
+        }catch(Exception e){
+            System.out.println("Erro: " +  e.getMessage());
+        }
+    }
+
+    private void realizarConsulta(){
+        System.out.println("========Realizar Consulta========");
+        int idConsulta = lerIdConsulta();
+
+        try {
+            Consulta consulta = sistemaClinicaMedica.getConsultaService().realizarConsulta(idConsulta);
+            System.out.println("Consulta realizar com sucesso!");
+            System.out.println(consulta);
+            System.out.printf("Valor da consulta: R$ %.2f%n", consulta.getValor());
+        }catch(Exception e){
+            System.out.println("Erro: " +  e.getMessage());
+        }
+    }
+
+    private void emitirReceita(){
+        System.out.println("========Emitir Receita========");
+        System.out.print("Id da consulta: ");
+        int idConsulta = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Receita: ");
+        String descricao = sc.nextLine();
+
+        try{
+            Receita receita =  sistemaClinicaMedica.getConsultaService().emitirReceita(idConsulta, descricao);
+            System.out.println("Receita emitir com sucesso!");
+            System.out.println(receita);
+        }catch(Exception e){
+            System.out.println("Erro: " +  e.getMessage());
+        }
+
+    }
     private int lerIdMedico() {
         System.out.print("Id: ");
         return Integer.parseInt(sc.nextLine());
@@ -381,5 +462,10 @@ public class Menu {
     private LocalTime lerHoraConsulta() {
         System.out.print("Hora Consulta: ");
         return LocalTime.parse(sc.nextLine(), formatterHora);
+    }
+
+    private int lerIdConsulta(){
+        System.out.print("Id Consulta: ");
+        return Integer.parseInt(sc.nextLine());
     }
 }

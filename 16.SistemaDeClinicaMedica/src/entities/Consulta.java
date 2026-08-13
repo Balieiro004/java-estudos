@@ -18,13 +18,16 @@ public class Consulta {
 
     private StatusDaConsulta statusDaConsulta;
 
-    public Consulta(Paciente paciente, Medico medico, LocalDate dataConsulta, LocalTime horaConsulta) {
+    private double valor;
+
+    public Consulta(Paciente paciente, Medico medico, LocalDate dataConsulta, LocalTime horaConsulta, double valor) {
         contador++;
         this.id=contador;
         this.paciente = paciente;
         this.medico = medico;
         this.dataConsulta = dataConsulta;
         this.horaConsulta = horaConsulta;
+        this.valor = valor;
         agendada();
     }
 
@@ -69,18 +72,56 @@ public class Consulta {
     }
 
     public void agendada(){this.statusDaConsulta = StatusDaConsulta.AGENDADA;}
-    public void confirmada(){this.statusDaConsulta = StatusDaConsulta.CONFIRMADA;}
+
+    public void confirmada(){
+
+        validarSeConsultaFoiCancelada();
+        validarSeConsultaFoiConfirmada();
+
+        this.statusDaConsulta = StatusDaConsulta.CONFIRMADA;
+    }
 
     public void cancelada(){
-        if (statusDaConsulta == StatusDaConsulta.REALIZADA) {
-            throw new IllegalStateException("Consulta já realizada.");
-        }
+        validarSeConsultaFoiRealizada();
+
+        validarSeConsultaFoiCancelada();
 
         this.statusDaConsulta = StatusDaConsulta.CANCELADA;
     }
-    public void realizada(){this.statusDaConsulta = StatusDaConsulta.REALIZADA;}
+    public void realizada(){
 
+        validarSeConsultaPodeSerRealizada();
 
+        this.statusDaConsulta = StatusDaConsulta.REALIZADA;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    private void validarSeConsultaFoiRealizada(){
+        if (statusDaConsulta == StatusDaConsulta.REALIZADA) {
+            throw new IllegalStateException("Consulta já realizada.");
+        }
+    }
+
+    private void validarSeConsultaFoiCancelada(){
+        if (statusDaConsulta == StatusDaConsulta.CANCELADA) {
+            throw new IllegalStateException("A consulta já foi cancelada.");
+        }
+    }
+    private void validarSeConsultaFoiConfirmada() {
+        if (statusDaConsulta == StatusDaConsulta.CONFIRMADA) {
+            throw new IllegalStateException("\"A consulta já está confirmada.");
+        }
+    }
+
+    private void validarSeConsultaPodeSerRealizada() {
+
+        if (statusDaConsulta != StatusDaConsulta.CONFIRMADA) {
+            throw new IllegalStateException("Somente consultas confirmadas podem ser realizadas.");
+        }
+    }
 
     @Override
     public String toString() {
@@ -90,6 +131,7 @@ public class Consulta {
                 "\nMedico: " + medico.getNome() +
                 "\nEspecialidade: " + medico.getEspecialidade() +
                 "\nData Consulta: " + dataConsulta +
-                "\nHora Consulta: " + horaConsulta;
+                "\nHora Consulta: " + horaConsulta +
+                "\nStatusDaConsulta: " + statusDaConsulta;
     }
 }

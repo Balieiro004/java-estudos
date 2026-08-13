@@ -17,7 +17,7 @@ public class MedicoService {
 
     public List<Medico> listarMedicos() {return Collections.unmodifiableList(medicos);}
 
-    public Medico cadastrarMedico(String nome, String cpf, String crm, Especialidades especialidade){
+    public Medico cadastrarMedico(String nome, String cpf, String crm, Especialidades especialidade, double valorConsulta){
 
         ValidacaoUtil.validarNome(nome);
         ValidacaoUtil.validarCPF(cpf);
@@ -25,7 +25,7 @@ public class MedicoService {
         validarEspecialidade(especialidade);
         validarSeMedicoExiste(cpf);
 
-        Medico medico = new Medico(nome,cpf,crm,especialidade);
+        Medico medico = new Medico(nome,cpf,crm,especialidade, valorConsulta);
         medicos.add(medico);
         return medico;
     }
@@ -82,42 +82,48 @@ public class MedicoService {
                 "Carlos Oliveira",
                 "12345678901",
                 "CRM-SP-123456",
-                Especialidades.CARDIOLOGIA
+                Especialidades.CARDIOLOGIA,
+                450.00
         );
 
         cadastrarMedico(
                 "Mariana Santos",
                 "23456789012",
                 "CRM-SP-234567",
-                Especialidades.PEDIATRIA
+                Especialidades.PEDIATRIA,
+                300.00
         );
 
         cadastrarMedico(
                 "João Pereira",
                 "34567890123",
                 "CRM-SP-345678",
-                Especialidades.ORTOPEDIA
+                Especialidades.ORTOPEDIA,
+                400.00
         );
 
         cadastrarMedico(
                 "Ana Costa",
                 "45678901234",
                 "CRM-SP-456789",
-                Especialidades.DERMATOLOGIA
+                Especialidades.DERMATOLOGIA,
+                350.00
         );
 
         cadastrarMedico(
                 "Pedro Almeida",
                 "56789012345",
                 "CRM-SP-567890",
-                Especialidades.NEUROLOGIA
+                Especialidades.NEUROLOGIA,
+                500.00
         );
 
         cadastrarMedico(
                 "Fernanda Lima",
                 "67890123456",
                 "CRM-SP-678901",
-                Especialidades.GINECOLOGIA
+                Especialidades.GINECOLOGIA,
+                380.00
         );
     }
 }
