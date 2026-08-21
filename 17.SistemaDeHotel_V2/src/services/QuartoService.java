@@ -56,7 +56,7 @@ public class QuartoService {
         if (tipoQuarto == null) {throw new IllegalArgumentException("Tipo de quarto é obrigatório.");}
     }
 
-    private Quarto buscarQuartoPorNumero(int numero){
+    public Quarto buscarQuartoPorNumero(int numero){
         for(Quarto quarto : quartos){
             if(quarto.getNumero() == numero){
                 return quarto;
