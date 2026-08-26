@@ -21,6 +21,7 @@ public class ReservaService {
     public ReservaService(HospedeService hospedeService, QuartoService quartoService) {
         this.hospedeService = hospedeService;
         this.quartoService = quartoService;
+        carregarReservasMock();
     }
 
     public List<Reserva> listarReservas() {return Collections.unmodifiableList(reservas);}
@@ -47,6 +48,7 @@ public class ReservaService {
         }
         return null;
     }
+
     public double calcularHospedagemPorId(int idReserva){
         Reserva reserva = buscarReservaObrigatoria(idReserva);
         double valorReserva = reserva.getValorDiaria();
@@ -65,6 +67,7 @@ public class ReservaService {
     public void cancelarReserva(int idReserva){
         Reserva reserva = buscarReservaObrigatoria(idReserva);
         reserva.cancelar();
+        reserva.getQuarto().disponivel();
     }
 
     public void realizarCheckIn(int idReserva, LocalDate dataCheckIn){
@@ -252,5 +255,62 @@ public class ReservaService {
         if(!dataCheckOut.isAfter(reserva.getDataCheckIn())){
             throw new IllegalArgumentException("A data de check-out deve ser posterior a data de check-in.");
         }
+    }
+
+    private void carregarReservasMock() {
+
+        criarReserva(
+                1,
+                101,
+                LocalDate.of(2026, 9, 1),
+                LocalDate.of(2026, 9, 5),
+                2,
+                200.00
+        );
+
+        criarReserva(
+                2,
+                102,
+                LocalDate.of(2026, 9, 10),
+                LocalDate.of(2026, 9, 15),
+                3,
+                300.00
+        );
+
+        criarReserva(
+                3,
+                201,
+                LocalDate.of(2026, 9, 5),
+                LocalDate.of(2026, 9, 8),
+                2,
+                450.00
+        );
+
+        criarReserva(
+                4,
+                202,
+                LocalDate.of(2026, 9, 15),
+                LocalDate.of(2026, 9, 20),
+                5,
+                600.00
+        );
+
+        criarReserva(
+                5,
+                301,
+                LocalDate.of(2026, 9, 20),
+                LocalDate.of(2026, 9, 23),
+                1,
+                200.00
+        );
+
+        criarReserva(
+                6,
+                302,
+                LocalDate.of(2026, 9, 25),
+                LocalDate.of(2026, 9, 30),
+                4,
+                300.00
+        );
     }
 }

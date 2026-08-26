@@ -170,8 +170,8 @@ public class Reserva {
     public String toString() {
         return "========Reserva========" +
                 "\nId: " + id +
-                "\nHospede: " + hospede +
-                "\nQuarto: " + quarto +
+                "\nHospede: " + hospede.getNome() +
+                "\nQuarto: " + quarto.getNumero() +
                 "\nData CheckIn: " + dataCheckIn +
                 "\nData CheckOut: " + dataCheckOut +
                 "\nQuantidade De Hospede: " + quantidadeDeHospede +

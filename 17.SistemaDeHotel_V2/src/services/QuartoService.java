@@ -11,7 +11,7 @@ public class QuartoService {
 
     private List<Quarto> quartos = new ArrayList<>();
 
-    public QuartoService() {}
+    public QuartoService() {carregarQuartosMock();}
 
     public List<Quarto> listarQuartos() {return Collections.unmodifiableList(quartos);}
 
@@ -63,5 +63,44 @@ public class QuartoService {
             }
         }
         return null;
+    }
+
+    private void carregarQuartosMock() {
+
+        cadastrarQuarto(
+                101,
+                2,
+                TipoQuarto.SIMPLES
+        );
+
+        cadastrarQuarto(
+                102,
+                4,
+                TipoQuarto.DUPLO
+        );
+
+        cadastrarQuarto(
+                201,
+                4,
+                TipoQuarto.LUXO
+        );
+
+        cadastrarQuarto(
+                202,
+                6,
+                TipoQuarto.SUITE
+        );
+
+        cadastrarQuarto(
+                301,
+                2,
+                TipoQuarto.SIMPLES
+        );
+
+        cadastrarQuarto(
+                302,
+                4,
+                TipoQuarto.DUPLO
+        );
     }
 }
