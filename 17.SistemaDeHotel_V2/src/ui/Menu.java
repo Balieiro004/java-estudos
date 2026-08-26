@@ -8,6 +8,7 @@ import system.SistemaHotel_V2;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -55,8 +56,7 @@ public class Menu {
             System.out.println("22.Listar Reservas por Período");
 
             System.out.println("0.Sair");
-            System.out.print("Opção: ");
-            int opcao = Integer.parseInt(sc.nextLine());
+            int opcao = lerOpcaoMenu();
 
             switch (opcao) {
                 case 1:{
@@ -170,7 +170,7 @@ public class Menu {
         System.out.print("Telefone: ");
         String telefone = sc.nextLine();
 
-        System.out.println("Email: ");
+        System.out.print("Email: ");
         String email = sc.nextLine();
 
         try {
@@ -493,32 +493,82 @@ public class Menu {
 
 
     private int lerIdHospede(){
-        System.out.print("Id Hospede: ");
-        return Integer.parseInt(sc.nextLine());
+        while(true){
+            try {
+                System.out.print("Id Hospede: ");
+                return Integer.parseInt(sc.nextLine());
+            }catch (NumberFormatException e){
+                System.out.println("Digite um ID de hospede válido.");
+            }
+        }
     }
 
     private int lerIdQuarto(){
-        System.out.print("Id Quarto: ");
-        return Integer.parseInt(sc.nextLine());
+        while(true){
+            try{
+                System.out.print("Id Quarto: ");
+                return Integer.parseInt(sc.nextLine());
+            }catch (NumberFormatException e){
+                System.out.println("Digite um ID de quarto válido.");
+            }
+        }
+
     }
 
     private int lerNumeroDoQuarto(){
-        System.out.print("Numero Quarto: ");
-        return Integer.parseInt(sc.nextLine());
+        while(true){
+            try{
+                System.out.print("Numero Quarto: ");
+                return Integer.parseInt(sc.nextLine());
+            }catch (NumberFormatException e){
+                System.out.println("Digite um numero válido.");
+            }
+        }
     }
 
     private LocalDate lerDataCheckIn(){
-        System.out.print("Data do checkin: ");
-        return LocalDate.parse(sc.nextLine(), formatter);
+        while(true){
+            try{
+                System.out.print("Data do checkin: ");
+                return LocalDate.parse(sc.nextLine(), formatter);
+            }catch (DateTimeParseException e){
+                System.out.println("Digite um data valida!");
+            }
+        }
+
     }
 
     private LocalDate lerDataCheckOut(){
-        System.out.print("Data do checkout: ");
-        return LocalDate.parse(sc.nextLine(), formatter);
+        while(true){
+            try{
+                System.out.print("Data do checkout: ");
+                return LocalDate.parse(sc.nextLine(), formatter);
+            }catch (DateTimeParseException e){
+                System.out.println("Digite um data valida!");
+            }
+        }
     }
 
     private int lerIdReserva(){
-        System.out.print("Id Reserva: ");
-        return Integer.parseInt(sc.nextLine());
+        while(true){
+            try{
+                System.out.print("Reserva id: ");
+                return Integer.parseInt(sc.nextLine());
+            }catch (NumberFormatException e){
+                System.out.println("Digite um ID de reserva válido.");
+            }
+        }
+    }
+
+    private int lerOpcaoMenu(){
+        while(true){
+            try {
+                System.out.print("Opção: ");
+                return Integer.parseInt(sc.nextLine());
+
+            }catch (NumberFormatException e){
+                System.out.println("Digite uma opção valida.");
+            }
+        }
     }
 }
