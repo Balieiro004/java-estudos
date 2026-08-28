@@ -46,7 +46,7 @@ public class QuartoService {
 
     private void validarNumero(int numero) {
         if (numero <= 0) {throw new IllegalArgumentException("Número deve ser maior que zero.");}
-        if (buscarQuartoPorId(numero) != null) {throw new IllegalArgumentException("Já existe um quarto com esse numero.");}
+        if (buscarQuartoPorNumero(numero) != null) {throw new IllegalArgumentException("Já existe um quarto com esse numero.");}
     }
     private void validarCapacidade(int capacidade) {
 

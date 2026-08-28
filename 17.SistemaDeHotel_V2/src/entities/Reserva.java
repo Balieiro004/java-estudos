@@ -164,6 +164,10 @@ public class Reserva {
         if (statusReserva == StatusReserva.CANCELADA) {
             throw new IllegalStateException("A reserva já foi cancelada.");
         }
+
+        if(statusReserva == StatusReserva.EM_ANDAMENTO){
+            throw new IllegalStateException("Reservas em andamento não podem ser canceladas.");
+        }
     }
 
     @Override

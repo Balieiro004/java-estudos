@@ -67,7 +67,9 @@ public class ReservaService {
     public void cancelarReserva(int idReserva){
         Reserva reserva = buscarReservaObrigatoria(idReserva);
         reserva.cancelar();
-        reserva.getQuarto().disponivel();
+        if(reserva.getQuarto().getStatusQuarto().equals(StatusQuarto.RESERVADO)){
+            reserva.getQuarto().disponivel();
+        }
     }
 
     public void realizarCheckIn(int idReserva, LocalDate dataCheckIn){

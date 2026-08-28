@@ -532,7 +532,7 @@ public class Menu {
                 System.out.print("Data do checkin: ");
                 return LocalDate.parse(sc.nextLine(), formatter);
             }catch (DateTimeParseException e){
-                System.out.println("Digite um data valida!");
+                System.out.println("Digite uma data valida!");
             }
         }
 
@@ -544,7 +544,7 @@ public class Menu {
                 System.out.print("Data do checkout: ");
                 return LocalDate.parse(sc.nextLine(), formatter);
             }catch (DateTimeParseException e){
-                System.out.println("Digite um data valida!");
+                System.out.println("Digite uma data valida!");
             }
         }
     }
