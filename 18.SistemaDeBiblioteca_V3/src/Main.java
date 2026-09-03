@@ -1,25 +1,18 @@
 import entities.Livro;
+import services.LivroService;
 
 public class Main {
     public static void main(String[] args) {
 
 
-        Livro livro = new Livro(
-                "O Senhor dos Anéis",
-                "J.R.R. Tolkien",
-                "978-0000000000",
-                1954
-        );
+        LivroService livroService = new LivroService();
 
-        System.out.println(livro);
+        livroService.cadastrarLivro("abc", "Euu", "123", 2026);
+        livroService.cadastrarLivro("Senhor dos aneis", "Euu", "123", 2020);
+        System.out.println(livroService.listarLivros());
 
-        livro.emprestado();
+        System.out.println("====");
 
-        System.out.println("=========");
-        System.out.println(livro);
-
-        livro.disponivel();
-        livro.disponivel();
-
+        System.out.println(livroService.buscarLivroPorId(1));
     }
 }
