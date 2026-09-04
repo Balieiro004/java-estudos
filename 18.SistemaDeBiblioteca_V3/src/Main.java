@@ -1,6 +1,8 @@
 import entities.Livro;
 import services.LivroService;
 
+import java.util.Optional;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -9,10 +11,19 @@ public class Main {
 
         livroService.cadastrarLivro("abc", "Euu", "123", 2026);
         livroService.cadastrarLivro("Senhor dos aneis", "Euu", "123", 2020);
-        System.out.println(livroService.listarLivros());
 
-        System.out.println("====");
+        Optional<Livro> resultado = livroService.buscarLivroPorId(1);
 
-        System.out.println(livroService.buscarLivroPorId(1));
+        if (resultado.isPresent()) {
+            System.out.println(resultado);
+        }
+
+        resultado.ifPresent(livro -> System.out.println(livro));
+
+        Livro livro = livroService.buscarLivroPorId(999).
+                orElseThrow(() -> new IllegalArgumentException("Livro não encontrado."));
+
+        System.out.println(livro);
+
     }
 }

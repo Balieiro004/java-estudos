@@ -6,12 +6,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class LivroService {
 
     private final int anoAtual = LocalDate.now().getYear();
 
-    private List<Livro> livros = new ArrayList<>();
+    private final List<Livro> livros = new ArrayList<>();
 
     public List<Livro> listarLivros() {return Collections.unmodifiableList(livros);}
 
@@ -27,15 +28,13 @@ public class LivroService {
         return livro;
     }
 
-    public Livro buscarLivroPorId(int id){
-        for(Livro livro : livros){
-            if(livro.getId() == id){
-                return livro;
-            }
-        }
-        return null;
+    public Optional<Livro> buscarLivroPorId(int id){
+        return livros.stream().filter(livro -> livro.getId() == id).findFirst();
     }
 
+    public Optional<Livro> buscarLivroPorTitulo(String titulo){
+        return livros.stream().filter(livro -> livro.getTitulo().equalsIgnoreCase(titulo)).findFirst();
+    }
     private void validarTitulo(String titulo){
         if(titulo == null || titulo.isEmpty()){
             throw new IllegalStateException("Titulo precisa ser preenchido.");
