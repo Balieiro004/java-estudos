@@ -58,9 +58,9 @@ public class Usuario {
     public String toString() {
         return "=======Usuario=======" +
                 "\nId: " + id +
-                "\nNome: " + nome + '\'' +
-                "\nCpf: " + cpf + '\'' +
-                "\nTelefone: " + telefone + '\'' +
+                "\nNome: " + nome +
+                "\nCpf: " + cpf +
+                "\nTelefone: " + telefone +
                 "\nEmail: " + email;
     }
 }

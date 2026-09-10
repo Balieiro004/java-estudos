@@ -9,7 +9,11 @@ import java.util.Optional;
 
 public class UsuarioService {
 
-    private List<Usuario> usuarios = new ArrayList<>();
+    private final List<Usuario> usuarios = new ArrayList<>();
+
+    public UsuarioService() {
+        carregarUsuariosMock();
+    }
 
     public List<Usuario> listarUsuarios() {return Collections.unmodifiableList(usuarios);}
 
@@ -56,23 +60,78 @@ public class UsuarioService {
         }
 
         if(buscarUsuarioPorCpf(cpf).isPresent()){
-            throw new IllegalArgumentException("Já existe um usuaário com esse CPF.");
+            throw new IllegalArgumentException("Já existe um usuário com esse CPF.");
         }
     }
     private void validarTelefone(String telefone){
         if(telefone == null || telefone.isEmpty()){
             throw new IllegalArgumentException("Telefone precisa ser preenchido.");
         }
+
+        if (!telefone.matches("\\d{10,11}")) {
+            throw new IllegalArgumentException(
+                    "Telefone deve conter apenas números e ter 10 ou 11 dígitos.");
+        }
     }
     private void validarEmail(String email){
-        if(email == null || email.isEmpty()){
+        if (email == null || email.isEmpty()) {
             throw new IllegalArgumentException("Email precisa ser preenchido.");
         }
 
-        if(buscarUsuarioPorEmail(email).isPresent()){
+        int posicaoArroba = email.indexOf("@");
+
+        if (posicaoArroba <= 0 || email.indexOf(".", posicaoArroba) == -1) {
+            throw new IllegalArgumentException("Email inválido.");
+        }
+
+        if (buscarUsuarioPorEmail(email).isPresent()) {
             throw new IllegalArgumentException("Já existe um usuário com esse email.");
         }
     }
 
 
+    public void carregarUsuariosMock() {
+
+        cadastrarUsuario(
+                "João Silva",
+                "12345678901",
+                "11999990001",
+                "joao.silva@email.com"
+        );
+
+        cadastrarUsuario(
+                "Maria Oliveira",
+                "23456789012",
+                "11999990002",
+                "maria.oliveira@email.com"
+        );
+
+        cadastrarUsuario(
+                "Pedro Santos",
+                "34567890123",
+                "11999990003",
+                "pedro.santos@email.com"
+        );
+
+        cadastrarUsuario(
+                "Ana Costa",
+                "45678901234",
+                "11999990004",
+                "ana.costa@email.com"
+        );
+
+        cadastrarUsuario(
+                "Carlos Pereira",
+                "56789012345",
+                "11999990005",
+                "carlos.pereira@email.com"
+        );
+
+        cadastrarUsuario(
+                "Fernanda Lima",
+                "67890123456",
+                "11999990006",
+                "fernanda.lima@email.com"
+        );
+    }
 }

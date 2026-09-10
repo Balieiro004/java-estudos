@@ -1,6 +1,7 @@
 package ui;
 
 import entities.Livro;
+import entities.Usuario;
 import system.SistemaDeBibliotevaV3;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class Menu {
 
             System.out.println("5.Cadstrar usuario");
             System.out.println("6.Listar usuarios");
+            System.out.println("7.Buscar usuario por id");
 
             System.out.println("0.Sair");
 
@@ -58,6 +60,10 @@ public class Menu {
                 }
                 case 6:{
                     listarUsuarios();
+                    break;
+                }
+                case 7:{
+                    buscarUsuarioPorId();
                     break;
                 }
                 case 0:{
@@ -128,6 +134,51 @@ public class Menu {
         livro.ifPresentOrElse(System.out::println, () -> System.out.println("Livro não encontrado"));
     }
 
-    private void cadastrarUsuario(){}
-    private void listarUsuarios(){}
+    private void cadastrarUsuario(){
+        System.out.println("========Cadastrar Usuario=======");
+
+        sc.nextLine();
+
+        System.out.print("Nome: ");
+        String nome = sc.nextLine();
+
+        System.out.print("Cpf: ");
+        String cpf = sc.nextLine();
+
+        System.out.print("Telefone: ");
+        String telefone = sc.nextLine();
+
+        System.out.print("email: ");
+        String email = sc.nextLine();
+
+
+        try{
+            Usuario usuario = sistemaDeBibliotevaV3.getUsuarioService().cadastrarUsuario(nome, cpf, telefone, email);
+            System.out.println("Usuario cadastrado com sucesso!");
+            System.out.println(usuario);
+        }catch (Exception e){
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+    private void listarUsuarios(){
+        System.out.println("=======Lista de Usuarios=======");
+
+        List<Usuario> usuarios = sistemaDeBibliotevaV3.getUsuarioService().listarUsuarios();
+        if(usuarios.isEmpty()){
+            System.out.println("Nenhum usuario encontrado!");
+        }else{
+            usuarios.forEach(System.out::println);
+        }
+    }
+
+    private void buscarUsuarioPorId(){
+        System.out.println("=======Buscar Usuario por Id=======");
+
+        System.out.print("Usuario id: ");
+        int id = Integer.parseInt(sc.next());
+
+        Optional<Usuario> usuario = sistemaDeBibliotevaV3.getUsuarioService().buscarUsuarioPorId(id);
+
+        usuario.ifPresentOrElse(System.out::println, () -> System.out.println("Usuario não encontrado"));
+    }
 }
