@@ -12,6 +12,8 @@ public class LivroService {
 
     private final int anoAtual = LocalDate.now().getYear();
 
+    public LivroService() {carregarLivrosMock();}
+
     private final List<Livro> livros = new ArrayList<>();
 
     public List<Livro> listarLivros() {return Collections.unmodifiableList(livros);}
@@ -67,5 +69,50 @@ public class LivroService {
         if(anoPublicacao < 1 || anoPublicacao >  anoAtual){
             throw new IllegalStateException("Ano precisa ser entre 1 e o ano " + anoAtual + ".");
         }
+    }
+
+    private void carregarLivrosMock() {
+
+        cadastrarLivro(
+                "Dom Casmurro",
+                "Machado de Assis",
+                "9788535910663",
+                1899
+        );
+
+        cadastrarLivro(
+                "O Hobbit",
+                "J.R.R. Tolkien",
+                "9788595084742",
+                1937
+        );
+
+        cadastrarLivro(
+                "1984",
+                "George Orwell",
+                "9788535914849",
+                1949
+        );
+
+        cadastrarLivro(
+                "Harry Potter e a Pedra Filosofal",
+                "J.K. Rowling",
+                "9788532530780",
+                1997
+        );
+
+        cadastrarLivro(
+                "O Senhor dos Anéis",
+                "J.R.R. Tolkien",
+                "9788595086357",
+                1954
+        );
+
+        cadastrarLivro(
+                "Clean Code",
+                "Robert C. Martin",
+                "9780132350884",
+                2008
+        );
     }
 }

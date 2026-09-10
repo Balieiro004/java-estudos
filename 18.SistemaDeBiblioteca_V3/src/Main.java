@@ -1,29 +1,17 @@
-import entities.Livro;
-import services.LivroService;
+import system.SistemaDeBibliotevaV3;
+import ui.Menu;
 
-import java.util.Optional;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
+        Scanner sc = new Scanner(System.in);
+        SistemaDeBibliotevaV3 sistema = new SistemaDeBibliotevaV3();
 
-        LivroService livroService = new LivroService();
+        Menu menu = new Menu(sistema, sc);
 
-        livroService.cadastrarLivro("abc", "Euu", "123", 2026);
-        livroService.cadastrarLivro("Senhor dos aneis", "Euu", "123", 2020);
-
-        Optional<Livro> resultado = livroService.buscarLivroPorId(1);
-
-        if (resultado.isPresent()) {
-            System.out.println(resultado);
-        }
-
-        resultado.ifPresent(livro -> System.out.println(livro));
-
-        Livro livro = livroService.buscarLivroPorId(999).
-                orElseThrow(() -> new IllegalArgumentException("Livro não encontrado."));
-
-        System.out.println(livro);
-
+        menu.iniciar();
+        sc.close();
     }
 }

@@ -64,8 +64,8 @@ public class HospedeService {
         if(buscarHospepdePorCpf(cpf) != null){
             throw new IllegalArgumentException("Já existe um hóspde com esse CPF.");
         }
-
     }
+
     private void validarTelefone(String telefone) {
         if(telefone == null || telefone.isBlank()){
             throw new IllegalArgumentException("Telefone precisa ser preenchido.");
