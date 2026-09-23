@@ -71,7 +71,7 @@ public class LivroService {
         }
     }
 
-    private void carregarLivrosMock() {
+    public void carregarLivrosMock() {
 
         cadastrarLivro(
                 "Dom Casmurro",
@@ -113,6 +113,34 @@ public class LivroService {
                 "Robert C. Martin",
                 "9780132350884",
                 2008
+        );
+
+        cadastrarLivro(
+                "O Código Da Vinci",
+                "Dan Brown",
+                "9788575421132",
+                2003
+        );
+
+        cadastrarLivro(
+                "A Revolução dos Bichos",
+                "George Orwell",
+                "9788535909551",
+                1945
+        );
+
+        cadastrarLivro(
+                "O Pequeno Príncipe",
+                "Antoine de Saint-Exupéry",
+                "9788522031444",
+                1943
+        );
+
+        cadastrarLivro(
+                "Java: Como Programar",
+                "Deitel",
+                "9788543025009",
+                2017
         );
     }
 }

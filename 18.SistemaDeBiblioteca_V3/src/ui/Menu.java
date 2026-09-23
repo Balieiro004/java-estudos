@@ -1,9 +1,13 @@
 package ui;
 
+import entities.Emprestimo;
 import entities.Livro;
 import entities.Usuario;
 import system.SistemaDeBibliotevaV3;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -12,6 +16,7 @@ public class Menu {
 
     private Scanner sc;
     private SistemaDeBibliotevaV3 sistemaDeBibliotevaV3;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public Menu(SistemaDeBibliotevaV3 sistemaDeBibliotevaV3, Scanner sc){
         this.sistemaDeBibliotevaV3 = sistemaDeBibliotevaV3;
@@ -28,9 +33,17 @@ public class Menu {
             System.out.println("3.Buscar livro por id");
             System.out.println("4.Buscar livro por titulo");
 
-            System.out.println("5.Cadstrar usuario");
+            System.out.println("5.Cadastrar usuario");
             System.out.println("6.Listar usuarios");
             System.out.println("7.Buscar usuario por id");
+
+            System.out.println("8.Cadastrar Emprestimo");
+            System.out.println("9.Listar Emprestimo");
+            System.out.println("10.Buscar Emprestimo por id");
+            System.out.println("11.Devolver Emprestimo");
+            System.out.println("12.Listar Emprestimos Ativos");
+            System.out.println("13.Listar Emprestimos Atrasados");
+            System.out.println("14.Listar Emprestimos Por Usuario");
 
             System.out.println("0.Sair");
 
@@ -64,6 +77,34 @@ public class Menu {
                 }
                 case 7:{
                     buscarUsuarioPorId();
+                    break;
+                }
+                case 8:{
+                    cadastrarEmprestimo();
+                    break;
+                }
+                case 9:{
+                    listarEmprestimos();
+                    break;
+                }
+                case 10:{
+                    buscarEmprestimoPorId();
+                    break;
+                }
+                case 11:{
+                    devolverEmprestimo();
+                    break;
+                }
+                case 12:{
+                    listarEmprestimosAtivos();
+                    break;
+                }
+                case 13:{
+                    listarEmprestimosAtrasados();
+                    break;
+                }
+                case 14:{
+                    listarEmprestimosPorUsuario();
                     break;
                 }
                 case 0:{
@@ -181,4 +222,94 @@ public class Menu {
 
         usuario.ifPresentOrElse(System.out::println, () -> System.out.println("Usuario não encontrado"));
     }
+
+    private void cadastrarEmprestimo(){
+        System.out.println("========Cadastrar Emprestimo=======");
+
+        System.out.print("Id Usuario: ");
+        int idUsuario = Integer.parseInt(sc.next());
+
+        System.out.print("Id Livro: ");
+        int idLivro = Integer.parseInt(sc.next());
+
+        System.out.print("Data Emprestimo: ");
+        LocalDate dataEmprestimo = LocalDate.parse(sc.next(), formatter);
+
+        System.out.print("Data Devolucao: ");
+        LocalDate dataDevolucaoPrevista = LocalDate.parse(sc.next(), formatter);
+
+        try{
+            Emprestimo emprestimo = sistemaDeBibliotevaV3.getEmprestimoService().cadastrarEmprestimo(idUsuario, idLivro, dataEmprestimo, dataDevolucaoPrevista);
+            System.out.println("Emprestimo Cadastrado com sucesso!");
+            System.out.println(emprestimo);
+        }catch (Exception e){
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+    private void listarEmprestimos(){
+        System.out.println("=======Listar Emprestimos=======");
+        List<Emprestimo> emprestimos = sistemaDeBibliotevaV3.getEmprestimoService().listarEmprestimos();
+        if(emprestimos.isEmpty()){
+            System.out.println("Nenhum emprestimo encontrado!");
+        }else {
+            emprestimos.forEach(System.out::println);
+        }
+    }
+    private void buscarEmprestimoPorId(){
+        System.out.println("=======Buscar Emprestimo por Id=======");
+
+        System.out.print("Id Emprestimo: ");
+        int idEmprestimo = Integer.parseInt(sc.next());
+
+        Optional<Emprestimo> emprestimo = sistemaDeBibliotevaV3.getEmprestimoService().buscarEmprestimoPorId(idEmprestimo);
+        emprestimo.ifPresentOrElse(System.out::println, () -> System.out.println("Emprestimo não encontrado"));
+    }
+
+    private void devolverEmprestimo(){
+        System.out.println("=======Devolver Emprestimo=======");
+        System.out.print("Id Emprestimo: ");
+        int idEmprestimo = Integer.parseInt(sc.next());
+
+
+        try{
+            sistemaDeBibliotevaV3.getEmprestimoService().devolverEmprestimo(idEmprestimo);
+            System.out.println("Emprestimo devolvido com sucesso!");
+        }catch (Exception e){
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    private void listarEmprestimosAtivos(){
+        System.out.println("=======Listar Emprestimos Ativos=======");
+        List<Emprestimo> emprestimos = sistemaDeBibliotevaV3.getEmprestimoService().listarEmprestimosAtivos();
+        if(emprestimos.isEmpty()){
+            System.out.println("Nenhum emprestimo encontrado!");
+        }else{
+            emprestimos.forEach(System.out::println);
+        }
+    }
+
+    private void listarEmprestimosAtrasados(){
+        System.out.println("=======Listar Emprestimos Atrasados=======");
+        List<Emprestimo> emprestimos = sistemaDeBibliotevaV3.getEmprestimoService().listarEmprestimosAtrasados();
+        if(emprestimos.isEmpty()){
+            System.out.println("Nenhum emprestimo encontrado!");
+        }else {
+            emprestimos.forEach(System.out::println);
+        }
+    }
+
+    private void listarEmprestimosPorUsuario(){
+        System.out.println("=======Listar Emprestimos por Usuario=======");
+        System.out.print("Id Usuario: ");
+        int idUsuario = Integer.parseInt(sc.next());
+
+        List<Emprestimo> emprestimos = sistemaDeBibliotevaV3.getEmprestimoService().listarEmprestimosPorUsuario(idUsuario);
+        if(emprestimos.isEmpty()){
+            System.out.println("Nenhum emprestimo encontrado!");
+        }else  {
+            emprestimos.forEach(System.out::println);
+        }
+    }
+
 }

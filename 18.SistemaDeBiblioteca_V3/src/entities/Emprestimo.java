@@ -91,8 +91,8 @@ public class Emprestimo {
     public String toString() {
         return "========Emprestimo========" +
                 "\nId: " + id +
-                "\nUsuario: " + usuario +
-                "\nLivro: " + livro +
+                "\nUsuario: " + usuario.getNome() +
+                "\nLivro: " + livro.getTitulo() +
                 "\nData Emprestimo: " + dataEmprestimo +
                 "\nData Devolucao Prevista: " + dataDevolucaoPrevista +
                 "\nData Devolucao Real: " + dataDevolucaoReal +
