@@ -1,5 +1,6 @@
-package org.example;
+package org.example.entities;
 
+import org.example.enums.StatusProduto;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
