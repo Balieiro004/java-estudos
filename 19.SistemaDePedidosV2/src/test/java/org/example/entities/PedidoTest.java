@@ -73,4 +73,73 @@ public class PedidoTest {
             pedido.cancelar();
         });
     }
+
+    @Test
+    void deveCalcularTotalDoPedido(){
+        Pedido pedido = new Pedido();
+        Produto produto = new Produto("Notebook", 100, 10);
+        ItemPedido item = new ItemPedido(produto, 2);
+
+        pedido.adicionarItem(item);
+
+        assertEquals(200, pedido.calcularTotal());
+    }
+
+    @Test
+    void deveCalcularTotalDoPedidoComVariosItens(){
+        Pedido pedido = new Pedido();
+
+        Produto notebook = new Produto("Notebook", 100, 10);
+        Produto mouse = new Produto("Mouse", 50, 20);
+
+        ItemPedido itemNotebook = new ItemPedido(notebook, 2);
+        ItemPedido itemMouse = new ItemPedido(mouse, 3);
+
+        pedido.adicionarItem(itemNotebook);
+        pedido.adicionarItem(itemMouse);
+
+        assertEquals(350, pedido.calcularTotal());
+    }
+
+    @Test
+    void deveCalcularTotalZeroQuandoPedidoNaoPossuiItens(){
+        Pedido pedido = new Pedido();
+
+        assertEquals(0, pedido.calcularTotal());
+    }
+
+    @Test
+    void deveBaixarEstoqueAoAdicionarItemAoPedido(){
+        Pedido pedido = new Pedido();
+        Produto produto = new Produto("Notebook", 100, 10);
+        ItemPedido item = new ItemPedido(produto, 2);
+
+        pedido.adicionarItem(item);
+
+        assertEquals(8, produto.getEstoque());
+    }
+
+    @Test
+    void deveImpedirAdicionarItemComQuantidadeMaiorQueEstoque(){
+        Pedido pedido = new Pedido();
+        Produto produto = new Produto("Notebook", 100, 2);
+        ItemPedido item = new ItemPedido(produto, 5);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            pedido.adicionarItem(item);
+        });
+    }
+
+    @Test
+    void naoDeveAdicionarItemAoPedidoQuandoEstoqueForInsuficiente(){
+        Pedido pedido = new Pedido();
+        Produto produto = new Produto("Notebook", 100, 2);
+        ItemPedido item = new ItemPedido(produto, 3);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            pedido.adicionarItem(item);
+        });
+
+        assertTrue(pedido.getItens().isEmpty());
+    }
 }

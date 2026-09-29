@@ -32,6 +32,7 @@ public class Pedido {
         if(status == StatusPedido.CANCELADO){
             throw new IllegalStateException("Não é possível adicionar itens a um pedido cancelado.");
         }
+        item.getProduto().baixarEstoque(item.getQuantidade());
         itens.add(item);
     }
 
@@ -40,5 +41,14 @@ public class Pedido {
             throw new IllegalStateException("O pedido ja está canelado.");
         }
         status = StatusPedido.CANCELADO;
+    }
+
+    public double calcularTotal(){
+        double total = 0;
+
+        for(ItemPedido item : itens){
+            total += item.calcularSubtotal();
+        }
+        return total;
     }
 }
