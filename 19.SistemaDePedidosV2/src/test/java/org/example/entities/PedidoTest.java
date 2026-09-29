@@ -142,4 +142,108 @@ public class PedidoTest {
 
         assertTrue(pedido.getItens().isEmpty());
     }
+
+    @Test
+    void devePagarPedidoAberto(){
+        Pedido pedido = new Pedido();
+
+        pedido.pagar();
+
+        assertEquals(StatusPedido.PAGO, pedido.getStatus());
+    }
+
+    @Test
+    void deveImpedirPagarPedidoJaPago(){
+        Pedido pedido = new Pedido();
+        pedido.pagar();
+
+        assertThrows(IllegalStateException.class, () -> {
+            pedido.pagar();
+        });
+    }
+
+    @Test
+    void deveImpedirPagarPedidoJaCancelado(){
+        Pedido pedido = new Pedido();
+        pedido.cancelar();
+
+        assertThrows(IllegalStateException.class, () -> {
+            pedido.pagar();
+        });
+    }
+
+    @Test
+    void deveEnviarPedidoPago(){
+        Pedido pedido = new Pedido();
+        pedido.pagar();
+        pedido.enviar();
+
+        assertEquals(StatusPedido.ENVIADO, pedido.getStatus());
+    }
+
+    @Test
+    void deveImpedirEnviarPedidoAberto(){
+        Pedido pedido = new Pedido();
+
+        assertThrows(IllegalStateException.class, () -> {
+            pedido.enviar();
+        });
+    }
+
+    @Test
+    void deveImpedirEnviarPedidoCancelado(){
+        Pedido pedido = new Pedido();
+
+        pedido.cancelar();
+
+        assertThrows(IllegalStateException.class, () -> {
+            pedido.enviar();
+        });
+    }
+
+    @Test
+    void deveImpedirEnviarPedidoJaEnviado(){
+        Pedido pedido = new Pedido();
+
+        pedido.pagar();
+        pedido.enviar();
+
+        assertThrows(IllegalStateException.class, () -> {
+            pedido.enviar();
+        });
+    }
+
+    @Test
+    void deveImpedirCancelarPedidoPago(){
+        Pedido pedido = new Pedido();
+
+        pedido.pagar();
+
+        assertThrows(IllegalStateException.class, () -> {
+            pedido.cancelar();
+        });
+    }
+
+    @Test
+    void deveImpedirCancelarPedidoEnviado(){
+        Pedido pedido = new Pedido();
+
+        pedido.pagar();
+        pedido.enviar();
+        assertThrows(IllegalStateException.class, () -> {
+            pedido.cancelar();
+        });
+    }
+
+    @Test
+    void deveImpedirPagarPedidoJaEnviado(){
+        Pedido pedido = new Pedido();
+
+        pedido.pagar();
+        pedido.enviar();
+
+        assertThrows(IllegalStateException.class, () -> {
+            pedido.pagar();
+        });
+    }
 }

@@ -40,7 +40,37 @@ public class Pedido {
         if(status == StatusPedido.CANCELADO){
             throw new IllegalStateException("O pedido ja está canelado.");
         }
+
+        if(status == StatusPedido.PAGO){
+            throw new IllegalStateException("Pedido ja foi pago.");
+        }
+        if(status == StatusPedido.ENVIADO){
+            throw new IllegalStateException("Pedido ja Enviado.");
+        }
+
         status = StatusPedido.CANCELADO;
+    }
+
+    public void pagar(){
+        if(status == StatusPedido.PAGO){
+            throw new IllegalStateException("Pedido já está como pago.");
+        }
+
+        if(status == StatusPedido.CANCELADO){
+            throw new IllegalStateException("O pedido já está cancelado. Não é possível pagar.");
+        }
+
+        if(status == StatusPedido.ENVIADO){
+            throw new IllegalStateException("Pedido ja enviado.");
+        }
+        status = StatusPedido.PAGO;
+    }
+
+    public void enviar() {
+        if(status != StatusPedido.PAGO){
+            throw new IllegalStateException("O pedido ainda não foi pago.");
+        }
+        status = StatusPedido.ENVIADO;
     }
 
     public double calcularTotal(){
