@@ -246,4 +246,294 @@ public class PedidoTest {
             pedido.pagar();
         });
     }
+
+    @Test
+    void deveRemoverItemDoPedido(){
+        Pedido pedido = new Pedido();
+        Produto produto = new Produto("Notebook", 100, 10);
+        ItemPedido item = new ItemPedido(produto, 2);
+
+        pedido.adicionarItem(item);
+
+        pedido.removerItem(item);
+
+        assertTrue(pedido.getItens().isEmpty());
+    }
+
+    @Test
+    void deveImpedirRemoverItemDePedidoPago(){
+        Pedido pedido = new Pedido();
+        Produto produto = new Produto("Notebook", 100, 10);
+        ItemPedido item = new ItemPedido(produto, 2);
+
+        pedido.adicionarItem(item);
+        pedido.pagar();
+
+        assertThrows(IllegalStateException.class, () -> {
+            pedido.removerItem(item);
+        });
+    }
+
+    @Test
+    void deveImpedirRemoverItemDePedidoEnviado(){
+        Pedido pedido = new Pedido();
+        Produto produto = new Produto("Notebook", 100, 10);
+        ItemPedido item = new ItemPedido(produto, 2);
+
+        pedido.adicionarItem(item);
+        pedido.pagar();
+        pedido.enviar();
+
+        assertThrows(IllegalStateException.class, () -> {
+            pedido.removerItem(item);
+        });
+    }
+
+    @Test
+    void deveImpedirRemoverItemDePedidoCancelado(){
+        Pedido pedido = new Pedido();
+        Produto produto = new Produto("Notebook", 100, 10);
+        ItemPedido item = new ItemPedido(produto, 2);
+
+        pedido.adicionarItem(item);
+        pedido.cancelar();
+
+        assertThrows(IllegalStateException.class, () -> {
+            pedido.removerItem(item);
+        });
+    }
+
+    @Test
+    void deveDevolverEstoqueAoRemoverItemDoPedido(){
+        Pedido pedido = new Pedido();
+        Produto produto = new Produto("Notebook", 100, 10);
+        ItemPedido item = new ItemPedido(produto, 2);
+
+        pedido.adicionarItem(item);
+
+        assertEquals(8, produto.getEstoque());
+
+        pedido.removerItem(item);
+
+        assertEquals(10, produto.getEstoque());
+    }
+
+    @Test
+    void deveDevolverEstoqueAoCancelarPedido(){
+        Pedido pedido = new Pedido();
+        Produto produto = new Produto("Notebook", 100, 10);
+        ItemPedido item = new ItemPedido(produto, 2);
+
+        pedido.adicionarItem(item);
+
+        assertEquals(8, produto.getEstoque());
+
+        pedido.cancelar();
+
+        assertEquals(10, produto.getEstoque());
+    }
+
+    @Test
+    void deveDevolverEstoqueDeTodosOsItensAoCancelarPedido(){
+        Pedido pedido = new Pedido();
+
+        Produto notebook = new Produto("Notebook", 100, 10);
+        Produto mouse = new Produto("Mouse", 50, 20);
+
+        ItemPedido itemNotebook = new ItemPedido(notebook, 2);
+        ItemPedido itemMouse = new ItemPedido(mouse, 3);
+
+        pedido.adicionarItem(itemNotebook);
+        pedido.adicionarItem(itemMouse);
+
+        assertEquals(8, notebook.getEstoque());
+        assertEquals(17, mouse.getEstoque());
+
+        pedido.cancelar();
+
+        assertEquals(10, notebook.getEstoque());
+        assertEquals(20, mouse.getEstoque());
+    }
+
+    @Test
+    void deveImpedirRemoverItemQueNaoPertenceAoPedido(){
+        Pedido pedido = new Pedido();
+
+        Produto notebook = new Produto("Notebook", 100, 10);
+        Produto mouse = new Produto("Mouse", 50, 20);
+
+        ItemPedido itemNotebook = new ItemPedido(notebook, 2);
+        ItemPedido itemMouse = new ItemPedido(mouse, 3);
+
+        pedido.adicionarItem(itemNotebook);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            pedido.removerItem(itemMouse);
+        });
+    }
+
+    @Test
+    void naoDeveAlterarEstoqueAoTentarRemoverItemQueNaoPertenceAoPedido(){
+        Pedido pedido = new Pedido();
+
+        Produto notebook = new Produto("Notebook", 100, 10);
+        Produto mouse = new Produto("Mouse", 50, 20);
+
+        ItemPedido itemNotebook = new ItemPedido(notebook, 2);
+        ItemPedido itemMouse = new ItemPedido(mouse, 3);
+
+        pedido.adicionarItem(itemNotebook);
+
+        assertEquals(20, mouse.getEstoque());
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            pedido.removerItem(itemMouse);
+        });
+
+        assertEquals(20, mouse.getEstoque());
+    }
+
+    @Test
+    void deveImpedirAdicionarItemEmPedidoPago(){
+        Pedido pedido = new Pedido();
+
+        pedido.pagar();
+
+        Produto produto  = new Produto("Notebook", 100, 10);
+        ItemPedido item  = new ItemPedido(produto , 2);
+
+        assertThrows(IllegalStateException.class, () -> {
+            pedido.adicionarItem(item);
+        });
+    }
+
+    @Test
+    void deveImpedirAdicionarItemEmPedidoEnviado(){
+        Pedido pedido = new Pedido();
+
+        pedido.pagar();
+        pedido.enviar();
+
+        Produto produto  = new Produto("Notebook", 100, 10);
+        ItemPedido item  = new ItemPedido(produto, 2);
+
+        assertThrows(IllegalStateException.class, () -> {
+            pedido.adicionarItem(item);
+        });
+    }
+
+    @Test
+    void naoDeveAlterarEstoqueAoTentarAdicionarItemEmPedidoPago(){
+        Pedido pedido = new Pedido();
+
+        pedido.pagar();
+
+        Produto produto  = new Produto("Notebook", 100, 10);
+        ItemPedido item  = new ItemPedido(produto, 2);
+
+        assertEquals(10, produto.getEstoque());
+
+        assertThrows(IllegalStateException.class, () -> {
+            pedido.adicionarItem(item);
+        });
+
+        assertEquals(10, produto.getEstoque());
+    }
+
+    @Test
+    void naoDeveAlterarEstoqueAoTentarAdicionarItemEmPedidoEnviado(){
+        Pedido pedido = new Pedido();
+
+        pedido.pagar();
+        pedido.enviar();
+
+        Produto produto = new Produto("Notebook", 100, 10);
+        ItemPedido item = new ItemPedido(produto, 2);
+
+        assertEquals(10, produto.getEstoque());
+
+        assertThrows(IllegalStateException.class, () -> {
+            pedido.adicionarItem(item);
+        });
+
+        assertEquals(10, produto.getEstoque());
+    }
+
+    @Test
+    void deveRemoverSomenteOItemSelecionado(){
+        Pedido pedido = new Pedido();
+
+        Produto notebook = new Produto("Notebook", 100, 10);
+        Produto mouse = new Produto("Mouse", 50, 20);
+
+        ItemPedido itemNotebook = new ItemPedido(notebook, 2);
+        ItemPedido itemMouse = new ItemPedido(mouse, 3);
+
+        pedido.adicionarItem(itemNotebook);
+        pedido.adicionarItem(itemMouse);
+
+        pedido.removerItem(itemNotebook);
+
+        assertEquals(1, pedido.getItens().size());
+        assertTrue(pedido.getItens().contains(itemMouse));
+        assertEquals(10, notebook.getEstoque());
+        assertEquals(17, mouse.getEstoque());
+    }
+
+    @Test
+    void deveImpedirRemoverItemNulo(){
+        Pedido pedido = new Pedido();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            pedido.removerItem(null);
+        });
+    }
+
+    @Test
+    void deveManterItensAoCancelarPedido(){
+        Pedido pedido = new Pedido();
+
+        Produto notebook = new Produto("Notebook", 100, 10);
+        ItemPedido item = new ItemPedido(notebook, 2);
+
+        pedido.adicionarItem(item);
+
+        pedido.cancelar();
+
+        assertEquals(1, pedido.getItens().size());
+        assertTrue(pedido.getItens().contains(item));
+    }
+
+    @Test
+    void naoDevePermitirAlterarListaDeItensDiretamente(){
+        Pedido pedido = new Pedido();
+
+        Produto produto = new Produto("Notebook", 100, 10);
+        ItemPedido item = new ItemPedido(produto, 2);
+
+        pedido.adicionarItem(item);
+
+        assertThrows(UnsupportedOperationException.class, () -> {
+            pedido.getItens().clear();
+        });
+
+        assertEquals(1, pedido.getItens().size());
+    }
+
+    @Test
+    void naoDevePermitirRemoverItemDiretamenteDaLista(){
+        Pedido pedido = new Pedido();
+
+        Produto produto = new Produto("Notebook", 100, 10);
+        ItemPedido item = new ItemPedido(produto, 2);
+
+        pedido.adicionarItem(item);
+
+        assertThrows(UnsupportedOperationException.class, () -> {
+            pedido.getItens().remove(item);
+        });
+
+        assertEquals(1, pedido.getItens().size());
+        assertEquals(8, produto.getEstoque());
+    }
 }
