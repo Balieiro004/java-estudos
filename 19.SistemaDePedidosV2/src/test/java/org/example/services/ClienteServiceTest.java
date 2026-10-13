@@ -106,4 +106,54 @@ public class ClienteServiceTest {
 
         assertTrue(resultado.isEmpty());
     }
+
+    @Test
+    void deveRemoverClientePorEmail(){
+        ClienteService service = new ClienteService();
+
+        service.cadastrar("anderson", "anderson@email.com");
+
+        service.removerClientePorEmail("anderson@email.com");
+
+        assertEquals(0, service.listar().size());
+    }
+
+    @Test
+    void naoDeveRemoverClienteInexistente(){
+        ClienteService service = new ClienteService();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+           service.removerClientePorEmail("inexistente@email.com");
+        });
+
+        assertEquals(0, service.listar().size());
+    }
+
+
+    @Test
+    void deveRemoverSomenteClienteComEmailInformado() {
+        ClienteService service = new ClienteService();
+
+        service.cadastrar("Anderson", "anderson@email.com");
+        service.cadastrar("Carlos", "carlos@email.com");
+
+        service.removerClientePorEmail("anderson@email.com");
+
+        assertEquals(1, service.listar().size());
+        assertEquals("Carlos", service.listar().get(0).getNome());
+    }
+
+    @Test
+    void naoDeveRemoverClienteQuandoEmailForNulo(){
+        ClienteService service = new ClienteService();
+
+        service.cadastrar("Anderson", "anderson@email.com");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.removerClientePorEmail(null);
+        });
+
+        assertEquals(1, service.listar().size());
+    }
+
 }

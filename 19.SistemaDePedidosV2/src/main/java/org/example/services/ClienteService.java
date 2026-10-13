@@ -37,4 +37,13 @@ public class ClienteService {
         }
         return Optional.empty();
     }
+
+    public void removerClientePorEmail(String email) {
+        Optional<Cliente> cliente = buscarPorEmail(email);
+
+        if (cliente.isEmpty()) {
+            throw new IllegalArgumentException("Cliente não encontrado.");
+        }
+        clientes.remove(cliente.get());
+    }
 }
