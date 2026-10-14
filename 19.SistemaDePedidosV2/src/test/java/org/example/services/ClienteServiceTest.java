@@ -156,4 +156,107 @@ public class ClienteServiceTest {
         assertEquals(1, service.listar().size());
     }
 
+    @Test
+    void deveAlterarNomeDoCliente(){
+        ClienteService service = new ClienteService();
+
+        service.cadastrar("Anderson", "anderson@email.com");
+
+        service.alterarNome("anderson@email.com", "Anderson Balieiro");
+
+        assertEquals("Anderson Balieiro", service.buscarPorEmail("anderson@email.com").get().getNome());
+    }
+
+    @Test
+    void naoDeveAlterarNomeDeClienteInexistente(){
+        ClienteService service = new ClienteService();
+
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.alterarNome("inexistente@email.com", "Carlos");
+        });
+
+        assertEquals(0, service.listar().size());
+    }
+
+    @Test
+    void deveAlterarEmailDoCliente(){
+        ClienteService service = new ClienteService();
+
+        service.cadastrar("Anderson", "anderson@email.com");
+
+        service.alterarEmail("anderson@email.com", "anderson.novo@email.com");
+
+        Optional<Cliente> cliente = service.buscarPorEmail("anderson.novo@email.com");
+
+        assertEquals("anderson.novo@email.com", cliente.get().getEmail());
+    }
+
+    @Test
+    void naoDeveAlterarEmailParaEmailJaCadastrado(){
+        ClienteService service = new ClienteService();
+
+        service.cadastrar("Anderson", "anderson@email.com");
+        service.cadastrar("Carlos", "carlos@email.com");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.alterarEmail("anderson@email.com", "carlos@email.com");
+        });
+
+        assertTrue(service.buscarPorEmail("anderson@email.com").isPresent());
+        assertTrue(service.buscarPorEmail("carlos@email.com").isPresent());
+    }
+
+    @Test
+    void naoDeveAlterarEmailDeClienteInexistente(){
+        ClienteService service = new ClienteService();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.alterarEmail("inexistente@email.com", "novo@email.com");
+        });
+
+        assertTrue(service.listar().isEmpty());
+
+    }
+
+    @Test
+    void naoDeveAlterarEmailParaVazio(){
+        ClienteService service = new ClienteService();
+
+        service.cadastrar("anderson", "anderson@email.com");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.alterarEmail("anderson@email.com", "");
+        });
+
+        assertEquals("anderson@email.com", service.buscarPorEmail("anderson@email.com").get().getEmail());
+    }
+
+    @Test
+    void naoDeveAlterarEmailParaNulo(){
+        ClienteService service = new ClienteService();
+
+        service.cadastrar("anderson", "anderson@email.com");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.alterarEmail("anderson@email.com", null);
+        });
+
+        assertEquals("anderson@email.com", service.buscarPorEmail("anderson@email.com").get().getEmail());
+    }
+
+    @Test
+    void naoDeveAlterarEmailParaApenasEspacos(){
+        ClienteService service = new ClienteService();
+
+        service.cadastrar("anderson", "anderson@email.com");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.alterarEmail("anderson@email.com", "     ");
+        });
+
+        assertEquals("anderson@email.com", service.buscarPorEmail("anderson@email.com").get().getEmail());
+    }
+
+
 }

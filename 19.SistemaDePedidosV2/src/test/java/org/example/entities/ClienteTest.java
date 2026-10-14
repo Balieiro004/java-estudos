@@ -83,4 +83,48 @@ public class ClienteTest {
         assertEquals("Anderson", cliente.getNome());
         assertEquals("anderson@email.com", cliente.getEmail());
     }
+
+
+    @Test
+    void naoDeveAlterarNomeParaVazio() {
+        Cliente cliente = new Cliente("Anderson", "anderson@email.com");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            cliente.alterarNome("");
+        });
+
+        assertEquals("Anderson", cliente.getNome());
+    }
+
+    @Test
+    void naoDeveAlterarNomeParaNulo(){
+        Cliente cliente = new Cliente("Anderson", "anderson@email.com");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+           cliente.alterarNome(null);
+        });
+
+        assertEquals("Anderson", cliente.getNome());
+    }
+
+    @Test
+    void naoDeveAlterarNomeParaApenasEspacos(){
+        Cliente cliente = new Cliente("Anderson", "anderson@email.com");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            cliente.alterarNome("  ");
+        });
+        assertEquals("Anderson", cliente.getNome());
+    }
+
+
+    @Test
+    void deveAlterarNomeDoCliente() {
+        Cliente cliente = new Cliente("Anderson", "anderson@email.com");
+
+        cliente.alterarNome("Anderson Balieiro");
+
+        assertEquals("Anderson Balieiro", cliente.getNome());
+    }
+
 }

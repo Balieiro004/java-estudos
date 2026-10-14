@@ -26,4 +26,19 @@ public class Cliente {
     public String getEmail() {
         return email;
     }
+
+    public void alterarNome(String nome){
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("Nome do cliente não pode ser vazio.");
+        }
+        this.nome = nome;
+    }
+
+    public void alterarEmail(String email){
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Email do cliente não pode ser vazio.");
+        }
+        this.email = email;
+    }
+
 }

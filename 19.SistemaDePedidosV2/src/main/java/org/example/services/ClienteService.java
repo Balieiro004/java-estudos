@@ -46,4 +46,28 @@ public class ClienteService {
         }
         clientes.remove(cliente.get());
     }
+
+    public void alterarNome(String email, String nome){
+        Optional<Cliente> cliente = buscarPorEmail(email);
+
+        if (cliente.isEmpty()) {
+            throw new IllegalArgumentException("Cliente não encontrado.");
+        }
+        cliente.get().alterarNome(nome);
+    }
+
+    public void alterarEmail(String emailAtual, String novoEmail){
+        Optional<Cliente> cliente = buscarPorEmail(emailAtual);
+
+        Optional<Cliente> clienteComNovoEmail = buscarPorEmail(novoEmail);
+
+        if(clienteComNovoEmail.isPresent() && clienteComNovoEmail.get() != cliente.get()) {
+            throw new IllegalArgumentException("Já existe um cliente cadastrado com esse email");
+        }
+
+        if (cliente.isEmpty()) {
+            throw new IllegalArgumentException("Cliente não encontrado.");
+        }
+        cliente.get().alterarEmail(novoEmail);
+    }
 }
